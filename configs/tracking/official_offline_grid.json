@@ -1,0 +1,25 @@
+{
+  "video": "<video path>",
+  "output": "<new output directory>",
+  "clip": {
+    "start_sec": 0.0,
+    "duration": 8.0,
+    "max_frames": 24,
+    "max_width": 960
+  },
+  "model": {
+    "source": "<local pinned co-tracker checkout>",
+    "checkpoint": "<scaled_offline.pth>",
+    "mode": "offline",
+    "device": "cuda",
+    "support_grid": true,
+    "seed": 0
+  },
+  "queries": {
+    "strategy": "grid",
+    "frame": 0,
+    "coordinate_space": "processing",
+    "points": [],
+    "grid_size": 3
+  }
+}

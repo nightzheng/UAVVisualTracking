@@ -1,4 +1,28 @@
 # Byte-compiled / optimized / DLL files
+# UAVVisualTracking local data, weights, environments and generated experiments
+.local/
+/data/
+/weights/
+experiments/runs/
+experiments/annotations/
+experiments/stage1/
+experiments/weekly/
+# Raw local audit records can contain machine paths and full local inventories.
+/docs/migration/audit_run_20261012/
+/docs/v0/STAGE0_RUN_RECORD.json
+/docs/v0/STAGE1_EVIDENCE_RECORD.json
+*.mp4
+*.avi
+*.mov
+*.pth
+*.pt
+# NPZ/PNG/JSON/CSV are deliberately NOT ignored globally. Run/data paths
+# above exclude large products; public summaries and synthetic fixtures stay visible.
+*.onnx
+*.local.json
+*.local.toml
+.env
+
 __pycache__/
 *.py[codz]
 *$py.class
@@ -218,3 +242,28 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Local environment, IDE, private configuration and temporary resources
+.conda/
+envs/
+.idea/
+.vscode/
+tmp/
+temp/
+benchmarks/local/
+checkpoints/
+*.tmp
+*.temp
+*.local.yaml
+*.local.yml
+*.local.ini
+*.local.cfg
+.secrets/
+credentials.json
+secrets.json
+*.pem
+*.key
+*.p12
+*.pfx
+id_rsa*
+id_ed25519*

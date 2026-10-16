@@ -1,0 +1,252 @@
+{
+  "schema_version": 1,
+  "baseline_id": "V0-offline-wind120-20261013-r1",
+  "frozen_date": "2026-10-13",
+  "frozen_scope": "engineering model/input/query/evaluation contract; not verified material identities or a frozen test dataset",
+  "references": {
+    "support_on": {
+      "config_sha256": "ba5b391900f9be9ed4a170e2ebd32e86cf54a476c55399cd290be8240b6b0d1f",
+      "model": {
+        "backend": "cotracker3",
+        "mode": "offline_full_clip",
+        "commit": "82e02e8029753ad4ef13cf06be7f4fc5facdda4d",
+        "checkpoint_name": "scaled_offline.pth",
+        "checkpoint_sha256": "2670d4562ed69326dda775a26e54883925cd11b6fc9b24cb7aa9f8078bce7834",
+        "support_grid": true,
+        "model_resolution_hw": [
+          384,
+          512
+        ],
+        "window_len": 60,
+        "backward_tracking": false,
+        "iterations": 6,
+        "model_license": "CC-BY-NC-4.0",
+        "seed": 0
+      },
+      "semantic_config": {
+        "clip": {
+          "start_sec": 0.0,
+          "duration": 8.0,
+          "max_frames": 120,
+          "max_width": 960
+        },
+        "queries": {
+          "strategy": "manual",
+          "frame": 0,
+          "coordinate_space": "processing",
+          "points": [
+            [
+              493.0,
+              277.0
+            ],
+            [
+              591.0,
+              75.0
+            ],
+            [
+              626.0,
+              470.0
+            ],
+            [
+              278.0,
+              296.0
+            ]
+          ]
+        },
+        "model": {
+          "backend": "cotracker3",
+          "mode": "offline_full_clip",
+          "commit": "82e02e8029753ad4ef13cf06be7f4fc5facdda4d",
+          "checkpoint_name": "scaled_offline.pth",
+          "checkpoint_sha256": "2670d4562ed69326dda775a26e54883925cd11b6fc9b24cb7aa9f8078bce7834",
+          "support_grid": true,
+          "model_resolution_hw": [
+            384,
+            512
+          ],
+          "window_len": 60,
+          "backward_tracking": false,
+          "iterations": 6,
+          "model_license": "CC-BY-NC-4.0",
+          "seed": 0
+        },
+        "video_sha256": "9dc01e3f3ebd7400ec71685e7660488b8aa630888dd7caec4921c734049556eb",
+        "device": "cuda"
+      },
+      "manifest_sha256": "b4e01b77b7fe4e863f03278277688894439bf3b7ae1af9b6efa467b0849548c9",
+      "tracks_sha256": "2eb57380a30b20d42362371849df635e002f59d3cebdffe2e8df58f4a7aac6ec",
+      "reference_run": "experiments/runs/stage1_20261013_controlled/measured_02_on"
+    },
+    "support_off": {
+      "config_sha256": "83d1c52e4159c7fc3352e82e6ed13329aed5aa693beca5db3835a40be7e72d92",
+      "model": {
+        "backend": "cotracker3",
+        "mode": "offline_full_clip",
+        "commit": "82e02e8029753ad4ef13cf06be7f4fc5facdda4d",
+        "checkpoint_name": "scaled_offline.pth",
+        "checkpoint_sha256": "2670d4562ed69326dda775a26e54883925cd11b6fc9b24cb7aa9f8078bce7834",
+        "support_grid": false,
+        "model_resolution_hw": [
+          384,
+          512
+        ],
+        "window_len": 60,
+        "backward_tracking": false,
+        "iterations": 6,
+        "model_license": "CC-BY-NC-4.0",
+        "seed": 0
+      },
+      "semantic_config": {
+        "clip": {
+          "start_sec": 0.0,
+          "duration": 8.0,
+          "max_frames": 120,
+          "max_width": 960
+        },
+        "queries": {
+          "strategy": "manual",
+          "frame": 0,
+          "coordinate_space": "processing",
+          "points": [
+            [
+              493.0,
+              277.0
+            ],
+            [
+              591.0,
+              75.0
+            ],
+            [
+              626.0,
+              470.0
+            ],
+            [
+              278.0,
+              296.0
+            ]
+          ]
+        },
+        "model": {
+          "backend": "cotracker3",
+          "mode": "offline_full_clip",
+          "commit": "82e02e8029753ad4ef13cf06be7f4fc5facdda4d",
+          "checkpoint_name": "scaled_offline.pth",
+          "checkpoint_sha256": "2670d4562ed69326dda775a26e54883925cd11b6fc9b24cb7aa9f8078bce7834",
+          "support_grid": false,
+          "model_resolution_hw": [
+            384,
+            512
+          ],
+          "window_len": 60,
+          "backward_tracking": false,
+          "iterations": 6,
+          "model_license": "CC-BY-NC-4.0",
+          "seed": 0
+        },
+        "video_sha256": "9dc01e3f3ebd7400ec71685e7660488b8aa630888dd7caec4921c734049556eb",
+        "device": "cuda"
+      },
+      "manifest_sha256": "aac6bb2961649fc707e483a0b82856b4424811c671ba0ac230d481a9c2a0e022",
+      "tracks_sha256": "6ee22820e4f6b131842d16ed2e109ec1f9ad64189e979f39a1eea06a2355b2eb",
+      "reference_run": "experiments/runs/stage1_20261013_controlled/measured_03_off"
+    }
+  },
+  "initial_queries": [
+    [
+      0.0,
+      493.0,
+      277.0
+    ],
+    [
+      0.0,
+      591.0,
+      75.0
+    ],
+    [
+      0.0,
+      626.0,
+      470.0
+    ],
+    [
+      0.0,
+      278.0,
+      296.0
+    ]
+  ],
+  "point_ids": [
+    "p000",
+    "p001",
+    "p002",
+    "p003"
+  ],
+  "source_frame_range_inclusive": [
+    0,
+    119
+  ],
+  "processing_resolution": [
+    960,
+    540
+  ],
+  "video_sha256": "9dc01e3f3ebd7400ec71685e7660488b8aa630888dd7caec4921c734049556eb",
+  "future_frame_access": true,
+  "causal": false,
+  "online_weight_status": "not_found",
+  "explicit_queries": 4,
+  "query_frame": 0,
+  "reinitializations": 0,
+  "query_semantics_human_confirmed": false,
+  "support_grid_policy": "retain both pinned strategies; do not choose by predicted visibility ratio",
+  "metric_protocol": {
+    "schema_version": 1,
+    "video_sha256": "9dc01e3f3ebd7400ec71685e7660488b8aa630888dd7caec4921c734049556eb",
+    "source_frame_range_inclusive": [
+      0,
+      119
+    ],
+    "coordinate_space": "processing",
+    "resolution": [
+      960,
+      540
+    ],
+    "threshold_pixels_inclusive": [
+      2,
+      5,
+      10,
+      20
+    ],
+    "observed_loss_threshold_pixels": 20,
+    "loss_rule": "GT visible and (nonfinite prediction or predicted invisible or EPE > threshold); first observed labeled failure, not inferred onset",
+    "localization_denominator": "all reviewed unambiguous GT-visible active point frames; nonfinite predictions count incorrect in threshold rates",
+    "epe_policy": "finite coordinates regardless of predicted visibility; missing predictions reported separately",
+    "visibility_denominator": "all reviewed unambiguous active entries with resolved visibility",
+    "gt_rule": "human visual annotation and review plus confirmed query-material correspondence; no model-assisted labels/interpolation",
+    "identity_rule": "human case review tied to result configuration; geometric proximity alone is insufficient",
+    "split": "development_only",
+    "evaluation_freeze_status": "provisional_protocol_awaiting_human_review_before_any_algorithm_selection",
+    "warmup_runs": 2,
+    "measured_trials_per_configuration": 4,
+    "measured_order": "ABBA BAAB; A=support on",
+    "online": false,
+    "training": false
+  },
+  "metric_protocol_sha256": "cb7f758518e6a2f5f67ff3fad51425277418fa55ea6bff3553b59a6cc39cb4de",
+  "implementation_sha256": {
+    "src/uav_visual_tracking/tracking/cotracker3.py": "34d6875de2c3fb45d9a9c56e6ea3a9dcf9fe9e1025b88ae0473bee45557f625a",
+    "src/uav_visual_tracking/data/video.py": "ecf34c86c1dbcc55bec3b31f1fd3bd082e4477beb8844d0e8b740af30159936f",
+    "src/uav_visual_tracking/data/queries.py": "5b874afb22683cf2445e7590905278492c948fdf2423b42778be208948f4b37b",
+    "src/uav_visual_tracking/data/results.py": "e906382b6251b6a71982d48cfef1b46fab6875e785557b7a36320d85de520264",
+    "src/uav_visual_tracking/evaluation/metrics.py": "12866c87c1fe3f7a94bd2e926d36dd1620a6098b205fe52ff79ad6e99c88a003",
+    "src/uav_visual_tracking/evaluation/annotations.py": "3959de2dc87d04c9561f4244df44488ba45a16ac4bc98c0d284a6c12d49067d1",
+    "src/uav_visual_tracking/cli.py": "b8a2b5695a53b9238e16665f41e1b2ffdf520b4a65c12565171c70888371082f"
+  },
+  "tracking_template_sha256": {
+    "wind_offline_support.json": "8def5e8cda36f44f61187d021b8588408d86c9aa1eaedaf6507c32a85175d8a8",
+    "wind_offline_no_support.json": "2da93f6ab2dce78c1ac3affdf6e999924e99f55bbb98427c309a48b534911506"
+  },
+  "GT_revision": null,
+  "GT_reviewed_point_frames": 0,
+  "frozen_test": false,
+  "scientific_quality_validated": false,
+  "crop_pilots_are_separate_query_subset": true,
+  "change_policy": "New ID and new output directory for baseline changes; old evidence remains intact"
+}

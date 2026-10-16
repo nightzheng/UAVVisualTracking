@@ -1,0 +1,49 @@
+[
+  {
+    "source": "co-tracker/experiments/camera_motion_compensation/visualization.py",
+    "sha256": "033a6877001ffe5f216fdf5c7195a4980431670ddc89e3ffb59d8646074b96d5",
+    "new": "src/uav_visual_tracking/visualization/drawing.py",
+    "parts": [
+      "draw_point",
+      "draw_history"
+    ],
+    "author": "repository owner, user-confirmed 2026-10-13",
+    "permission": "migration/modification/integration authorized; original project code MIT",
+    "reuse": "exact function extraction"
+  },
+  {
+    "source": "co-tracker/experiments/camera_motion_compensation/run.py",
+    "sha256": "df87f6c325caeedf8c36106387b697e060b0fc5fba24b194f2b5a766e265d558",
+    "new": "src/uav_visual_tracking/data/video.py",
+    "parts": [
+      "read_clip"
+    ],
+    "author": "repository owner, user-confirmed 2026-10-13",
+    "permission": "migration/modification/integration authorized; original project code MIT",
+    "reuse": "adapted flow and validation; full third-party core not copied"
+  },
+  {
+    "source": "co-tracker/experiments/camera_motion_compensation/point_selector.py",
+    "sha256": "7ad9e75a9e5b8562f1184b1a35b243b22dbb51c1e5a2cd90e328e2c9c11848d5",
+    "new": "src/uav_visual_tracking/data/queries.py",
+    "parts": [
+      "validation/initialization concepts"
+    ],
+    "author": "repository owner, user-confirmed 2026-10-13",
+    "permission": "migration/modification/integration authorized; original project code MIT",
+    "reuse": "adapted flow and validation; full third-party core not copied"
+  },
+  {
+    "source": "co-tracker/experiments/camera_motion_compensation/target_tracking.py",
+    "sha256": "af0fdad577df357d674e3c96f7fa02e2dba50ef322c0dcd26b159060a37e4711",
+    "new": "src/uav_visual_tracking/tracking/cotracker3.py; data/results.py; evaluation/metrics.py",
+    "parts": [
+      "infer",
+      "save_tracks",
+      "visibility_statistics"
+    ],
+    "author": "repository owner, user-confirmed 2026-10-13",
+    "permission": "migration/modification/integration authorized; original project code MIT",
+    "reuse": "adapted flow and validation; full third-party core not copied"
+  }
+]
