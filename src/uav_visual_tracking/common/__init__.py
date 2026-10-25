@@ -1,1 +1,1 @@
-"""Reproducibility helpers."""
+"""Public offline point tracking research snapshot."""

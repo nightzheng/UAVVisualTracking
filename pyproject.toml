@@ -1,20 +1,28 @@
 [build-system]
-requires = ["setuptools>=68"]
+requires = ["setuptools>=68", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
 name = "uav-visual-tracking"
 version = "0.1.0"
-description = "Reproducible partial-visibility point tracking research baseline"
+description = "Offline point tracking public research snapshot"
+readme = "README.md"
 requires-python = ">=3.10"
-license = {text = "MIT (original project code only)"}
+license = {text = "MIT for original code; bundled official TAP-Vid code Apache-2.0"}
 dependencies = ["numpy>=1.24", "opencv-python>=4.8"]
 
 [project.optional-dependencies]
-cotracker = ["cotracker @ git+https://github.com/facebookresearch/co-tracker.git@82e02e8029753ad4ef13cf06be7f4fc5facdda4d"]
+models = ["torch>=2.1", "torchvision>=0.16", "einops>=0.7", "dm-tree>=0.1.8", "einshape>=1.0", "tqdm>=4.64"]
+figures = ["matplotlib>=3.7"]
 
 [project.scripts]
-uav-track = "uav_visual_tracking.cli:main"
+uav-demo = "uav_visual_tracking.demo:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]
+
+[tool.setuptools]
+license-files = ["LICENSE", "THIRD_PARTY_NOTICES.md"]
+
+[tool.setuptools.package-data]
+"uav_visual_tracking.evaluation._official" = ["evaluation_datasets.py", "LICENSE"]

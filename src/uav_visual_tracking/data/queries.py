@@ -38,7 +38,10 @@ def make_queries(config, clip):
             raise ValueError("Manual points must be nonempty [x,y] pairs")
         space = config.get("coordinate_space", "processing")
         if space == "original":
-            xy = resize_coordinates(xy, clip.metadata["original_resolution"], [width, height])
+            source = clip.metadata.get('source_processing_resolution', [width,height])
+            xy = resize_coordinates(xy, clip.metadata["original_resolution"], source)
+            if 'crop_roi_xyxy' in clip.metadata:
+                xy -= np.asarray(clip.metadata['crop_roi_xyxy'][:2])
         elif space != "processing":
             raise ValueError("coordinate_space must be original or processing")
         methods = ["manual"] * len(xy)

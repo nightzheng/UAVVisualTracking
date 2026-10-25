@@ -1,0 +1,788 @@
+{
+  "snapshot": "UAVVisualTracking Public Research Snapshot v0.1",
+  "date": "2026-10-25",
+  "manifest_hash_policy": "Self hash excluded; complete current public tree fingerprint retained with local archive validation",
+  "scope": "Original code and selected formal synthetic derivatives; no Git history, source videos, raw arrays, weights, environments or historical stage infrastructure",
+  "semantics": {
+    "standard": "actual-video-256-v2; unchanged pinned official TAP-Vid function",
+    "reliability": "fixed M0/M1/ALL; epsilon 5/10 source-image px; strict >0.7; known-only G_geo and separate unknown bounds",
+    "aggregation": "explicit full plan; equal query means within parent then equal parent means; NA propagates"
+  },
+  "upstream": {
+    "B0": {
+      "repository": "https://github.com/facebookresearch/co-tracker",
+      "commit": "82e02e8029753ad4ef13cf06be7f4fc5facdda4d",
+      "weight": "https://huggingface.co/facebook/cotracker3/blob/main/scaled_offline.pth",
+      "weight_sha256": "2670d4562ed69326dda775a26e54883925cd11b6fc9b24cb7aa9f8078bce7834",
+      "license": "CC-BY-NC-4.0"
+    },
+    "B1": {
+      "repository": "https://github.com/google-deepmind/tapnet",
+      "commit": "730cda1c730877cfedbe01bf87fb1cadb78a565d",
+      "weight": "https://storage.googleapis.com/dm-tapnet/bootstap/bootstapir_checkpoint_v2.pt",
+      "weight_sha256": "8493c7a69e02c85b9382fbb3c7b8b539b36bc08ede744b9e99feb739a0129f4b",
+      "license": "Apache-2.0"
+    },
+    "TAPVid": {
+      "repository": "https://github.com/google-deepmind/tapnet",
+      "commit": "730cda1c730877cfedbe01bf87fb1cadb78a565d",
+      "source_sha256": "90cd01e53e23f6d489d3a6cd840cfd93fed4c1a6f4a0dfd373933cc164f0e570",
+      "license": "Apache-2.0",
+      "source_url": "https://github.com/google-deepmind/tapnet/blob/730cda1c730877cfedbe01bf87fb1cadb78a565d/tapnet/tapvid/evaluation_datasets.py"
+    }
+  },
+  "scientific_sources": [
+    {
+      "id": "Stage5B formal frozen",
+      "sha256": "9e0a59aae96fa8bf0e145cac2e3741208f09ee1f95b958b6645e68219516e18c",
+      "distributed": "selected parent summaries and derivatives only"
+    },
+    {
+      "id": "Stage6B independent synthetic frozen",
+      "sha256": "cf84b5b2419fe1e03ba520bff0a0b2be22fbebe1b60655b9cdc5949c0de6956a",
+      "distributed": "selected parent summaries and derivatives only"
+    }
+  ],
+  "validation": {
+    "cpu_tests_per_install": 25,
+    "installation_modes": [
+      "regular wheel",
+      "editable"
+    ],
+    "original_PYTHONPATH_required": false,
+    "dependencies": "Existing runtime dependencies reused; fresh network resolution not tested",
+    "frozen_sequences": 144,
+    "scalar_checks": 9396,
+    "max_abs_difference": 2.220446049250313e-16,
+    "C3_actual_video_wh": [
+      180,
+      260
+    ],
+    "incomplete_GT": "official full scores remain NA",
+    "GPU_engineering": {
+      "passed": true,
+      "backends": [
+        "B0",
+        "B1"
+      ],
+      "frames_per_backend": 6,
+      "queries_per_backend": 1,
+      "source": "Separate development synthetic clip; never used in scientific summaries",
+      "limitation": "Existing GPU environment and one short clip only; no CPU model test or deployment/performance claim"
+    },
+    "media_review": "3 PNGs plus both videos checked; all 96 encoded frames in contact sheets and selected native-size frames",
+    "unchanged_core_symbols": [
+      {
+        "source": "tracking/cotracker3.py",
+        "symbol": "capture_offline_scores",
+        "unchanged_AST": true
+      },
+      {
+        "source": "tracking/cotracker3.py",
+        "symbol": "CoTracker3.predict",
+        "unchanged_AST": true
+      },
+      {
+        "source": "tracking/bootstapir.py",
+        "symbol": "verify_source",
+        "unchanged_AST": true
+      },
+      {
+        "source": "tracking/bootstapir.py",
+        "symbol": "BootsTAPIR.__init__",
+        "unchanged_AST": true
+      },
+      {
+        "source": "tracking/bootstapir.py",
+        "symbol": "BootsTAPIR.predict",
+        "unchanged_AST": true
+      },
+      {
+        "source": "tracking/interface.py",
+        "symbol": "raster_scale",
+        "unchanged_AST": true
+      },
+      {
+        "source": "tracking/interface.py",
+        "symbol": "processing_to_original",
+        "unchanged_AST": true
+      },
+      {
+        "source": "tracking/interface.py",
+        "symbol": "prepare_tapir_input",
+        "unchanged_AST": true
+      },
+      {
+        "source": "tracking/interface.py",
+        "symbol": "decode_tapir_output",
+        "unchanged_AST": true
+      },
+      {
+        "source": "data/video.py",
+        "symbol": "resize_coordinates",
+        "unchanged_AST": true
+      },
+      {
+        "source": "evaluation/point_diagnostics.py",
+        "symbol": "known_only_diagnostics",
+        "unchanged_AST": true
+      }
+    ]
+  },
+  "reproduction_boundary": "Full renderer/frozen data not distributed; source hashes bind adaptations and selected derivatives to the preserved local research workspace",
+  "files": [
+    {
+      "path": ".gitignore",
+      "sha256": "9e58692a05196ec8581c735b68955c34282ccdc2a89ee0df4053f32403914364",
+      "bytes": 300,
+      "mode": "NEW",
+      "sources": [],
+      "integration_revision": {
+        "snapshot_sha256": "18c2acb1f1b6727b5443e1794a42eef927bb5dd327711ed44321c4f7e1f40a5b",
+        "reason": "General local archive/data/model/cache ignores while keeping formal media visible"
+      }
+    },
+    {
+      "path": "configs/queries.json",
+      "sha256": "57aa349323f78e699746ae18d16ef6cb3b9cfc756db6e7abfc680502e8fe0b6f",
+      "bytes": 109,
+      "mode": "NEW",
+      "sources": []
+    },
+    {
+      "path": "docs/assets/baseline_pairs.png",
+      "sha256": "2f83a4660a6cf62b3a1f4d6194bd7b5e1749170634b4d630f8e00691da80588d",
+      "bytes": 182047,
+      "mode": "DERIVED",
+      "sources": [],
+      "public_revision": {
+        "previous_public_sha256": "6018b3d8aa7148cd1050684b5a43d3ca69335a2d9d6476a8ceb4b364e3c66cf9",
+        "reason": "Public figure re-rendered with clear four-decimal labels; C0/p04/B1 displays 0.6752 from frozen AJ 0.675228695569881",
+        "verification": "Frozen parent CSV exact equality, rendered final image inspected"
+      }
+    },
+    {
+      "path": "docs/assets/case_preview.png",
+      "sha256": "16deeae909a66a88a55c2c5edb3585ad880b2ba4d85bd2ed34453ea50bcb4269",
+      "bytes": 1943036,
+      "mode": "DERIVED",
+      "sources": []
+    },
+    {
+      "path": "docs/assets/local_reentry.mp4",
+      "sha256": "e0cc8949769485d547b5865bf7982b33b5b6071216e32915cf1bf3194d90426d",
+      "bytes": 446763,
+      "mode": "DERIVED",
+      "sources": []
+    },
+    {
+      "path": "docs/assets/MEDIA_MANIFEST.json",
+      "sha256": "96bd9f206acffd471ceb5a57d2af09cdcd73728535e9906005c777a12879b886",
+      "bytes": 6116,
+      "mode": "DERIVED",
+      "sources": []
+    },
+    {
+      "path": "docs/assets/repeated_appearance.mp4",
+      "sha256": "46467c0f37b8731563fcde40c62813fa56d0c19bdddd95cea0e90babeded08ed",
+      "bytes": 601217,
+      "mode": "DERIVED",
+      "sources": []
+    },
+    {
+      "path": "docs/assets/risk_coverage.png",
+      "sha256": "9736534d40b7e9c73045295f270c04fbb534a2b21421022b0943d682764361e0",
+      "bytes": 193034,
+      "mode": "DERIVED",
+      "sources": []
+    },
+    {
+      "path": "docs/RESEARCH_STATUS.md",
+      "sha256": "8850a5266ee7662155e735beb436f5ccf4f011ba299e5f4686662ba106faf0a4",
+      "bytes": 13256,
+      "mode": "NEW",
+      "sources": [],
+      "integration_revision": {
+        "snapshot_sha256": "5757bd93a93030bd23da5a44487d1ba984498c8fbdb55d45b1d009310036ecb9",
+        "reason": "Distill durable material-identity, independent-GT, metric-boundary and 2D/3D scope definitions from archived research; no algorithm change"
+      }
+    },
+    {
+      "path": "LICENSE",
+      "sha256": "e861579bccacd7ffc43ecaabc0e46a632ead18a8e81946f31dd44143cdc92572",
+      "bytes": 1327,
+      "mode": "COPY",
+      "sources": [
+        {
+          "source": "LICENSE",
+          "original_sha256": "e861579bccacd7ffc43ecaabc0e46a632ead18a8e81946f31dd44143cdc92572",
+          "reason": "Unchanged source",
+          "verification": [
+            "sha_and_license_check"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "pyproject.toml",
+      "sha256": "6576239305b2b0ab3e10dea619e64029122f07fe9d05b2ba0ba93ef503f330e3",
+      "bytes": 873,
+      "mode": "ADAPT",
+      "sources": [
+        {
+          "source": "pyproject.toml",
+          "original_sha256": "8651fe437e09a401340bb955acd21e34ab5960d7bb9a252fbc2cac210764aabd",
+          "reason": "Independent packaging and model/figure extras; bundled metric source/license and notice files",
+          "verification": [
+            "sha_and_license_check"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "README.md",
+      "sha256": "d2f5fe2484b44ea0b9b0fefb4da157df5ca797904402be30ee8d3f32bcb4f2e4",
+      "bytes": 8112,
+      "mode": "NEW",
+      "sources": []
+    },
+    {
+      "path": "results/baseline_parent.csv",
+      "sha256": "502d8b3db3d75ec01567b42e17f3205d317ff8dfe97fb6fe9dc27a1a9629e082",
+      "bytes": 4692,
+      "mode": "DERIVED",
+      "sources": []
+    },
+    {
+      "path": "results/reliability_parent.csv",
+      "sha256": "24f35ea805f12ed6413f89e4e9b6c6947a048abafd92fac7bd8790023563fe77",
+      "bytes": 21340,
+      "mode": "DERIVED",
+      "sources": []
+    },
+    {
+      "path": "results/summary.json",
+      "sha256": "d402b8247ca0aa97d523564143624b6627958c23a1d6fb9ed78705a4325f0bdf",
+      "bytes": 9839,
+      "mode": "DERIVED",
+      "sources": []
+    },
+    {
+      "path": "scripts/demo.py",
+      "sha256": "014c0045ce6bf6360f0b071748f08a91e91f3d7bffe33f9a229eebdde9104323",
+      "bytes": 169,
+      "mode": "ADAPT",
+      "sources": [
+        {
+          "source": "scripts/run_point_tracker.py",
+          "original_sha256": "eb8eca2de3118816af0f7554999cfeb2e6df8e4acad4e273851abfe9fde6b3f5",
+          "reason": "Thin installed-package command entry",
+          "verification": [
+            "cpu_contracts_25",
+            "frozen_regression_144",
+            "gpu_engineering_6frames_each_backend"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "scripts/evaluate.py",
+      "sha256": "61215a8283c43ad1ba0ea7052f4c19d5e70c47ca618ccad8d124c47d923ced28",
+      "bytes": 1855,
+      "mode": "ADAPT",
+      "sources": [
+        {
+          "source": "scripts/evaluate_point_tracks.py",
+          "original_sha256": "784c3f4844aef520b0da67dc3a816cf5bb66ec1fae2dbfba58fabd334c23b625",
+          "reason": "Explicit new entry routes only actual-video standard metrics and fixed gates",
+          "verification": [
+            "cpu_contracts_25",
+            "frozen_regression_144"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "scripts/plot_results.py",
+      "sha256": "9f7a7433e9b65dfbbba301510dba4aa3a0fa5bd39989bac8d0dce9a7ce934193",
+      "bytes": 6634,
+      "mode": "NEW",
+      "sources": [],
+      "public_revision": {
+        "previous_public_sha256": "816d1cdb3694dd2387f507f29588d9dd2ab6f2e95a6a45eb8e08b0851c031b9c",
+        "reason": "Display-only label precision 3 to 4 decimals and offset away from marker; data values, coordinates and research metrics unchanged",
+        "verification": "Frozen parent CSV exact equality, rendered final image inspected"
+      }
+    },
+    {
+      "path": "src/uav_visual_tracking/__init__.py",
+      "sha256": "7cbae5a162e4b91206b12fb6e329904657808678ed664caa3fcdcdaa257680ad",
+      "bytes": 55,
+      "mode": "NEW",
+      "sources": []
+    },
+    {
+      "path": "src/uav_visual_tracking/common/__init__.py",
+      "sha256": "7cbae5a162e4b91206b12fb6e329904657808678ed664caa3fcdcdaa257680ad",
+      "bytes": 55,
+      "mode": "NEW",
+      "sources": []
+    },
+    {
+      "path": "src/uav_visual_tracking/common/provenance.py",
+      "sha256": "84060d91fbb138b8733c8551129bf94a7133b8974d8e85929256a2d526f2bbdd",
+      "bytes": 563,
+      "mode": "COPY",
+      "sources": [
+        {
+          "source": "src/uav_visual_tracking/common/provenance.py",
+          "original_sha256": "84060d91fbb138b8733c8551129bf94a7133b8974d8e85929256a2d526f2bbdd",
+          "reason": "Unchanged source",
+          "verification": [
+            "cpu_contracts_25",
+            "frozen_regression_144"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "src/uav_visual_tracking/data/__init__.py",
+      "sha256": "7cbae5a162e4b91206b12fb6e329904657808678ed664caa3fcdcdaa257680ad",
+      "bytes": 55,
+      "mode": "NEW",
+      "sources": []
+    },
+    {
+      "path": "src/uav_visual_tracking/data/queries.py",
+      "sha256": "72a56e0def9cf4fdf2f7f9b7bef6dc99cbbf27045c32d9c0225099bd80a07ff7",
+      "bytes": 2832,
+      "mode": "ADAPT",
+      "sources": [
+        {
+          "source": "src/uav_visual_tracking/data/queries.py",
+          "original_sha256": "5b874afb22683cf2445e7590905278492c948fdf2423b42778be208948f4b37b",
+          "reason": "Correct original-space manual queries through resize then ROI translation",
+          "verification": [
+            "cpu_contracts_25",
+            "frozen_regression_144"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "src/uav_visual_tracking/data/results.py",
+      "sha256": "36b2a154e2ca4e7326a90d6312f48b16bf4a65724e6275585a26a47b0dd51f7a",
+      "bytes": 6948,
+      "mode": "ADAPT",
+      "sources": [
+        {
+          "source": "src/uav_visual_tracking/data/results.py",
+          "original_sha256": "e04d00c8f94626430a926508f5a72a986181057cd8f563284e977e334fabac15",
+          "reason": "Public schema2/raw-score writing only; reject overwrites; validate manifest/schema/frame/point/query consistency; legacy frozen reading retained",
+          "verification": [
+            "cpu_contracts_25",
+            "frozen_regression_144"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "src/uav_visual_tracking/data/video.py",
+      "sha256": "035ddfcf0aca19bded188eb8ed69887f1ecaaa3bd67bee99fcae7c67fd99b603",
+      "bytes": 4200,
+      "mode": "ADAPT",
+      "sources": [
+        {
+          "source": "src/uav_visual_tracking/data/video.py",
+          "original_sha256": "ecf34c86c1dbcc55bec3b31f1fd3bd082e4477beb8844d0e8b740af30159936f",
+          "reason": "Attribution points to public manifest; tighten verified CFR timing to avoid silently resampling near-CFR VFR; resize math unchanged",
+          "verification": [
+            "cpu_contracts_25",
+            "frozen_regression_144"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "src/uav_visual_tracking/demo.py",
+      "sha256": "db5f524f0934a9a9f261ef01d9c9edc72e03265139025fa4f40896a7431bafaa",
+      "bytes": 9861,
+      "mode": "EXTRACT",
+      "sources": [
+        {
+          "source": "scripts/run_point_tracker.py",
+          "original_sha256": "eb8eca2de3118816af0f7554999cfeb2e6df8e4acad4e273851abfe9fde6b3f5",
+          "reason": "Generic explicit CLI, per-point query frames, ROI, schema2 mandatory raw scores and CFR overlay; no resource controller",
+          "verification": [
+            "cpu_contracts_25",
+            "frozen_regression_144",
+            "gpu_engineering_6frames_each_backend"
+          ],
+          "symbols": [
+            "run"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "src/uav_visual_tracking/evaluation/__init__.py",
+      "sha256": "7cbae5a162e4b91206b12fb6e329904657808678ed664caa3fcdcdaa257680ad",
+      "bytes": 55,
+      "mode": "NEW",
+      "sources": []
+    },
+    {
+      "path": "src/uav_visual_tracking/evaluation/_official/__init__.py",
+      "sha256": "7cbae5a162e4b91206b12fb6e329904657808678ed664caa3fcdcdaa257680ad",
+      "bytes": 55,
+      "mode": "NEW",
+      "sources": []
+    },
+    {
+      "path": "src/uav_visual_tracking/evaluation/_official/evaluation_datasets.py",
+      "sha256": "90cd01e53e23f6d489d3a6cd840cfd93fed4c1a6f4a0dfd373933cc164f0e570",
+      "bytes": 24538,
+      "mode": "COPY",
+      "sources": [
+        {
+          "source": "docs/evaluation/official/evaluation_datasets.py",
+          "original_sha256": "90cd01e53e23f6d489d3a6cd840cfd93fed4c1a6f4a0dfd373933cc164f0e570",
+          "reason": "Unchanged source",
+          "verification": [
+            "cpu_contracts_25",
+            "frozen_regression_144"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "src/uav_visual_tracking/evaluation/_official/LICENSE",
+      "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+      "bytes": 11358,
+      "mode": "COPY",
+      "sources": [
+        {
+          "source": "docs/evaluation/official/LICENSE",
+          "original_sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+          "reason": "Unchanged source",
+          "verification": [
+            "sha_and_license_check"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "src/uav_visual_tracking/evaluation/entry.py",
+      "sha256": "be2c9eedb013246d13f1c98cff47cb40295e640d67544e15e741052a615deef9",
+      "bytes": 6923,
+      "mode": "EXTRACT",
+      "sources": [
+        {
+          "source": "scripts/stage6b_evaluate.py",
+          "original_sha256": "318a4ce58cb16d9d114c56868c73b2891d06d3ce1081b777323f472254d0fb0f",
+          "reason": "Extract query-to-parent equal weighting and strict NA propagation; generalize full plan and missing-slot refusal",
+          "verification": [
+            "cpu_contracts_25",
+            "frozen_regression_144"
+          ],
+          "symbols": [
+            "aggregate"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "src/uav_visual_tracking/evaluation/reliability.py",
+      "sha256": "dc572a4fa838e9a9c547f8b58eedc95287f4e0938946d0e5931061edf3da462a",
+      "bytes": 7702,
+      "mode": "EXTRACT",
+      "sources": [
+        {
+          "source": "src/uav_visual_tracking/evaluation/point_diagnostics.py",
+          "original_sha256": "32298054e8539b3e6bc47fdac1a5ade518664c8d6b63a40188c638bb92de1b08",
+          "reason": "Minimal public interface; frozen arithmetic regression required",
+          "verification": [
+            "cpu_contracts_25",
+            "frozen_regression_144"
+          ],
+          "symbols": [
+            "known_only_diagnostics",
+            "ratio",
+            "segments"
+          ]
+        },
+        {
+          "source": "src/uav_visual_tracking/evaluation/reliability_frozen.py",
+          "original_sha256": "980bc0407b3acfdac643a3855a86566ac1dd996349a810c320ba1db81bc1374e",
+          "reason": "Minimal public interface; frozen arithmetic regression required",
+          "verification": [
+            "cpu_contracts_25",
+            "frozen_regression_144"
+          ],
+          "symbols": [
+            "accept",
+            "evaluate",
+            "strict_mean"
+          ]
+        },
+        {
+          "source": "src/uav_visual_tracking/evaluation/reliability_pilot.py",
+          "original_sha256": "1495ee18b4a118b4b029688676dba06e79b8732beec80e40152adb4933ccd739",
+          "reason": "Minimal public interface; frozen arithmetic regression required",
+          "verification": [
+            "cpu_contracts_25",
+            "frozen_regression_144"
+          ],
+          "symbols": [
+            "select (M0/M1/ALL only)"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "src/uav_visual_tracking/evaluation/tapvid.py",
+      "sha256": "9a52612c43d6f095bd3857cc854cee9b7e079ea5aa943c869c1775d89313ec4a",
+      "bytes": 7041,
+      "mode": "EXTRACT",
+      "sources": [
+        {
+          "source": "src/uav_visual_tracking/evaluation/tapvid.py",
+          "original_sha256": "31fde3adf7379bd173133411c2df9e3f3b27637884aa1ad8b82fc20d380ef0dc",
+          "reason": "Minimal public interface; frozen arithmetic regression required",
+          "verification": [
+            "cpu_contracts_25",
+            "frozen_regression_144"
+          ],
+          "symbols": [
+            "official_compute",
+            "aligned_inputs"
+          ]
+        },
+        {
+          "source": "src/uav_visual_tracking/evaluation/frozen.py",
+          "original_sha256": "d3efe388bd7d75a2ae5138664c87f6c549ce941f43f6f564d6af8adc40827784",
+          "reason": "Minimal public interface; frozen arithmetic regression required",
+          "verification": [
+            "cpu_contracts_25",
+            "frozen_regression_144"
+          ],
+          "symbols": [
+            "original_to_processing",
+            "evaluate_actual_video"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "src/uav_visual_tracking/tracking/__init__.py",
+      "sha256": "7cbae5a162e4b91206b12fb6e329904657808678ed664caa3fcdcdaa257680ad",
+      "bytes": 55,
+      "mode": "NEW",
+      "sources": []
+    },
+    {
+      "path": "src/uav_visual_tracking/tracking/base.py",
+      "sha256": "06bdb129fe068a8b2f1c7f8ba663f54eed62883575195331be8af1386c390aca",
+      "bytes": 1225,
+      "mode": "COPY",
+      "sources": [
+        {
+          "source": "src/uav_visual_tracking/tracking/base.py",
+          "original_sha256": "06bdb129fe068a8b2f1c7f8ba663f54eed62883575195331be8af1386c390aca",
+          "reason": "Unchanged source",
+          "verification": [
+            "cpu_contracts_25",
+            "frozen_regression_144",
+            "gpu_engineering_6frames_each_backend"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "src/uav_visual_tracking/tracking/bootstapir.py",
+      "sha256": "c268c83377d9e691196734d3f8a35bb421f29a4536474f47575d0d9934439382",
+      "bytes": 8486,
+      "mode": "COPY",
+      "sources": [
+        {
+          "source": "src/uav_visual_tracking/tracking/bootstapir.py",
+          "original_sha256": "c268c83377d9e691196734d3f8a35bb421f29a4536474f47575d0d9934439382",
+          "reason": "Unchanged source",
+          "verification": [
+            "cpu_contracts_25",
+            "frozen_regression_144",
+            "gpu_engineering_6frames_each_backend"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "src/uav_visual_tracking/tracking/cotracker3.py",
+      "sha256": "5423ead5547dbf39205cf4a0e7fdaa2f8fb811f34f36fc34ef8471a04c83dee8",
+      "bytes": 9267,
+      "mode": "ADAPT",
+      "sources": [
+        {
+          "source": "src/uav_visual_tracking/tracking/cotracker3.py",
+          "original_sha256": "34a67f6b8dd17794666739752e31d4f52e3e7eb7c89950fc37f649d7e07e65ca",
+          "reason": "Public attribution and clear Git-read verification errors; capture/inference function AST unchanged",
+          "verification": [
+            "cpu_contracts_25",
+            "frozen_regression_144",
+            "gpu_engineering_6frames_each_backend"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "src/uav_visual_tracking/tracking/interface.py",
+      "sha256": "8be0e9bc46cdcd72fb01e968ff4a8bec02ef2cfb1a5fe7df51701c6aed32c01e",
+      "bytes": 3866,
+      "mode": "COPY",
+      "sources": [
+        {
+          "source": "src/uav_visual_tracking/tracking/interface.py",
+          "original_sha256": "8be0e9bc46cdcd72fb01e968ff4a8bec02ef2cfb1a5fe7df51701c6aed32c01e",
+          "reason": "Unchanged source",
+          "verification": [
+            "cpu_contracts_25",
+            "frozen_regression_144",
+            "gpu_engineering_6frames_each_backend"
+          ]
+        }
+      ]
+    },
+    {
+      "path": "tests/test_public_contracts.py",
+      "sha256": "4787855cbb73f8acdf27ce075988409030bde083b62c5ff10cc6d53a87ad3c8f",
+      "bytes": 8656,
+      "mode": "NEW",
+      "sources": []
+    },
+    {
+      "path": "tests/test_public_metrics.py",
+      "sha256": "1cefe547e5b7f464793b8802273f3bfd22a90661ac63972cf49e17a79600adfc",
+      "bytes": 7925,
+      "mode": "NEW",
+      "sources": []
+    },
+    {
+      "path": "THIRD_PARTY_NOTICES.md",
+      "sha256": "73aecfaf4806eb0335c3734e3af6507adc31071ff154205338bef2b24a38f8e8",
+      "bytes": 4704,
+      "mode": "NEW",
+      "sources": []
+    }
+  ],
+  "final_review": {
+    "status": "Verified research snapshot integrated into existing repository history",
+    "baseline_label": {
+      "parent": "heldout_p04",
+      "condition": "C0",
+      "model": "B1_native",
+      "frozen_AJ": 0.675228695569881,
+      "label": "0.6752",
+      "previous_label": "0.675 was correct three-decimal rounding; readability and precision improved only"
+    },
+    "tests_per_install": 25,
+    "installations": [
+      "normal wheel",
+      "editable"
+    ],
+    "original_PYTHONPATH_required": false,
+    "C3_read_only_regression": {
+      "sequences": 48,
+      "scalar_checks": 1848,
+      "max_abs_difference": 0.0,
+      "actual_video_domain_wh": [
+        180,
+        260
+      ],
+      "source_reference_wh": [
+        480,
+        360
+      ],
+      "standard_complete": 22,
+      "standard_NA": 26
+    },
+    "media": {
+      "unchanged_MP4_SHA": true,
+      "videos": 2,
+      "encoded_frames": 96,
+      "frame_model_checks": 192,
+      "source_content_SHA_records": 14,
+      "encoded_fps": 8,
+      "source_fps": 24,
+      "duration_each_seconds": 6,
+      "playback_speed": "1/3",
+      "native_size_samples_and_all_frame_contact_sheets_reviewed": true,
+      "no_GT_markers_on_hidden_or_unknown": true,
+      "no_confirmed_material_identity_claim": true
+    },
+    "privacy": "Every public file and PNG metadata reviewed; no private paths, credentials, private research archive, raw data, models or unlicensed real footage",
+    "licensing": "Original contributions MIT scope retained; external CoTracker CC-BY-NC-4.0; BootsTAPIR and unchanged official TAP-Vid Apache-2.0; synthetic media provenance retained",
+    "links": "Local Markdown/media paths resolve; 12 external README/notice URLs returned HTTP 200 via HEAD without weight downloads",
+    "new_model_inference": false,
+    "engineering_smoke_scope": "Prior 6-frame GPU smoke remains engineering only, not full research reproduction"
+  },
+  "content_source": {
+    "kind": "approved local Public Research Snapshot v0.1 file contents",
+    "snapshot_commit": "8e65571df77ceb94f0bf950fbdf6173ae6f78af0",
+    "snapshot_manifest_sha256": "2576e594393db5584d8a6c6ae3717c5694084a8e2f6f0a30632bdb7ae503ce36",
+    "repository": "https://github.com/nightzheng/UAVVisualTracking",
+    "base_revision": "9fece8cc32e398d330da94a47843c869903be269",
+    "history": "Existing repository ancestry continues normally; the local snapshot commit is not imported as an ancestor"
+  },
+  "scientific_preservation": [
+    {
+      "source": "docs/STAGE0_REPORT.md",
+      "source_sha256": "14dc2e5ac15f848720dbe47262605f1529be0132e0eef779725eb9005c1577d7",
+      "retained": "Material identity, independent GT, threshold/coordinate and image-space versus metric-motion limits distilled into docs/RESEARCH_STATUS.md"
+    },
+    {
+      "source": "docs/STAGE1_REPORT.md",
+      "source_sha256": "b0bbcb4a27afa0e5a4709764bee7a5bc9cdd650c086a50006cc0be745ab4605e",
+      "retained": "Material identity, independent GT, threshold/coordinate and image-space versus metric-motion limits distilled into docs/RESEARCH_STATUS.md"
+    },
+    {
+      "source": "docs/v0/V0_GT_ANNOTATION_SPEC.md",
+      "source_sha256": "39563a17fed963339341159cb6a673da5ee86f58f259ffe022b4496b3b279a37",
+      "retained": "Material identity, independent GT, threshold/coordinate and image-space versus metric-motion limits distilled into docs/RESEARCH_STATUS.md"
+    },
+    {
+      "source": "docs/evaluation/METRIC_DEFINITIONS.md",
+      "source_sha256": "95665d8fea520df781fa7b364b23b2bfd709f980a3b44ea0e5cb3256656dbd5d",
+      "retained": "Material identity, independent GT, threshold/coordinate and image-space versus metric-motion limits distilled into docs/RESEARCH_STATUS.md"
+    },
+    {
+      "source": "docs/v1/V1_EGOMOTION_PLAN.md",
+      "source_sha256": "e662d1de1922a4d072709fa2dbf3a43d2c99ee69c6f79bb421a72157dd2b14fa",
+      "retained": "Material identity, independent GT, threshold/coordinate and image-space versus metric-motion limits distilled into docs/RESEARCH_STATUS.md"
+    },
+    {
+      "source": "docs/v1/V1_REFERENCE_RECOVERY_PLAN.md",
+      "source_sha256": "520d07f9537fa05bdd1c7af471350334e1bd2c01ecd9f0abb8d1fbc68c1bb247",
+      "retained": "Material identity, independent GT, threshold/coordinate and image-space versus metric-motion limits distilled into docs/RESEARCH_STATUS.md"
+    }
+  ],
+  "integration_validation": {
+    "tests_per_install": 25,
+    "installation_modes": [
+      "normal wheel",
+      "editable"
+    ],
+    "frozen_sequences": 144,
+    "scalar_checks": 9396,
+    "max_abs_difference": 2.220446049250313e-16,
+    "C3_actual_video_domain_wh": [
+      180,
+      260
+    ],
+    "complete_parent_plans_and_missing_refusal": true,
+    "unknown_and_NA_preserved": true,
+    "all_media_SHA_and_source_checks": true,
+    "source_algorithm_bytes_unchanged": true,
+    "new_GPU_forwards": 0,
+    "dependency_policy": "Existing dependency runtime reused; package installed independently with original PYTHONPATH ignored"
+  }
+}

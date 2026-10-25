@@ -2,7 +2,7 @@
 
 Reuse: OpenCV clip selection, width resize, RGB frames and metadata.
 Changes: retain decoded PTS, explicit source frame indices and time provenance.
-Migration source and hashes are recorded in docs/migration/SOURCE_MAP.json.
+Attribution and source hashes: THIRD_PARTY_NOTICES.md and SOURCE_MANIFEST.json.
 """
 from dataclasses import dataclass
 from pathlib import Path
@@ -70,7 +70,7 @@ def read_clip(path, start_sec=0., duration=8., max_frames=120, max_width=640):
         valid_pts = np.isfinite(pts).all() and (np.diff(pts) > 0).all()
         time_basis = "opencv_decoded_pts_seconds" if valid_pts else "nominal_fps_assumption"
         timestamps = pts if valid_pts else np.asarray(indices) / fps
-        cfr = valid_pts and bool(np.allclose(np.diff(pts), 1 / fps, rtol=.02, atol=1e-5))
+        cfr = valid_pts and bool(np.allclose(np.diff(pts), 1 / fps, rtol=1e-4, atol=1e-6))
         return VideoClip(np.stack(frames), np.asarray(indices, dtype=np.int64), timestamps,
                          dict(video_name=path.name, fps=fps, original_resolution=[width, height],
                               processing_resolution=list(size), frame_count=len(frames), start_frame=first,

@@ -1,0 +1,157 @@
+{
+  "exporter_sha256": "aa639f062fc36800e2602a009f323f662caad779551b1aa1fa92d4dd39beb0a2",
+  "videos": [
+    {
+      "file": "docs/assets/repeated_appearance.mp4",
+      "sha256": "46467c0f37b8731563fcde40c62813fa56d0c19bdddd95cea0e90babeded08ed",
+      "stage": "Stage5B formal frozen",
+      "parent": "heldout_p01",
+      "condition": "C2",
+      "query": "A_inner",
+      "source_resolution_wh": [
+        480,
+        360
+      ],
+      "source_frame_range": [
+        0,
+        47
+      ],
+      "source_PTS_range_seconds": [
+        0.0,
+        1.9583333333333333
+      ],
+      "source_fps": 24,
+      "encoded_fps": 8,
+      "playback_speed": 0.3333333333333333,
+      "frames": 48,
+      "codec": "H.264 / yuv420p / faststart",
+      "encoder_binary_sha256": "2ce797a0f88d7f067180338fb227f7b1928ea727bd9a4d7a1d022f7c52af71a3",
+      "source_content": [
+        {
+          "role": "B0/tracks.npz",
+          "sha256": "c807a21e64004eb39d9746e4c2b1945575a89e8d47a64e53107795eec04ebf59"
+        },
+        {
+          "role": "B0/manifest.json",
+          "sha256": "9ad92252a7e334dca20a062fe270f7c80775193b9358e2dee4feae7cf86e7f74"
+        },
+        {
+          "role": "B0/evaluation_gt.npz",
+          "sha256": "1974b752f040b7ccf3537e75bfeaa22931295dfa25fa8f3a4a4c57146787b546"
+        },
+        {
+          "role": "B1/tracks.npz",
+          "sha256": "928c77f965df7384df28c00ff3b692a4cc6574c300ba8b52dbf1a999bfaeb1be"
+        },
+        {
+          "role": "B1/manifest.json",
+          "sha256": "77429d06c15dc05e65bf85985a5c5f7f395259d1bc1b8bcad6ae4e41fc70dcc4"
+        },
+        {
+          "role": "B1/evaluation_gt.npz",
+          "sha256": "1974b752f040b7ccf3537e75bfeaa22931295dfa25fa8f3a4a4c57146787b546"
+        },
+        {
+          "role": "frozen_RGB_frames",
+          "sha256": "15645e72200db191d7fdc297507a3203a3646d9aea53fe3e5fb987c2236dd799"
+        }
+      ],
+      "rights": "Project-owned procedural synthetic raster; no real source footage, external textures or people",
+      "identity_claim": "GT material point is synthetic; model identity correctness not independently verified",
+      "transform": "native raster pixels placed at recorded panel offsets; no resize, crop or coordinate clipping; H.264 CRF18 transcode without frame resampling",
+      "unknown_policy": "No GT marker on unknown or hidden frames; no interpolation",
+      "native_thresholds": {
+        "B0": ">0.9 with official query override",
+        "B1": ">0.5"
+      },
+      "inference": "none; frozen predictions only"
+    },
+    {
+      "file": "docs/assets/local_reentry.mp4",
+      "sha256": "e0cc8949769485d547b5865bf7982b33b5b6071216e32915cf1bf3194d90426d",
+      "stage": "Stage5B formal frozen",
+      "parent": "heldout_p06",
+      "condition": "C3",
+      "query": "A_inner",
+      "source_resolution_wh": [
+        180,
+        260
+      ],
+      "source_frame_range": [
+        0,
+        47
+      ],
+      "source_PTS_range_seconds": [
+        0.0,
+        1.9583333333333333
+      ],
+      "source_fps": 24,
+      "encoded_fps": 8,
+      "playback_speed": 0.3333333333333333,
+      "frames": 48,
+      "codec": "H.264 / yuv420p / faststart",
+      "encoder_binary_sha256": "2ce797a0f88d7f067180338fb227f7b1928ea727bd9a4d7a1d022f7c52af71a3",
+      "source_content": [
+        {
+          "role": "B0/tracks.npz",
+          "sha256": "7db9010c758bfa1a4251156f247616aa9a76f7344fa475147ef8b08c30d0fb45"
+        },
+        {
+          "role": "B0/manifest.json",
+          "sha256": "f9ff2fce044a3921039c80e0384603ffdf534b42a94fc69029bd6a6e3b6d95b9"
+        },
+        {
+          "role": "B0/evaluation_gt.npz",
+          "sha256": "2500945b5545619a97fb3937e09f44daaf949f622116993e16d4d88e0d1e466c"
+        },
+        {
+          "role": "B1/tracks.npz",
+          "sha256": "33a491d75963b20b947ffecbca9ab229c82805199028e88ef6f8a155fdece08b"
+        },
+        {
+          "role": "B1/manifest.json",
+          "sha256": "387edb2545125e49be36718c7fd799a87e0e28b7f5c78b0396f928850e491962"
+        },
+        {
+          "role": "B1/evaluation_gt.npz",
+          "sha256": "2500945b5545619a97fb3937e09f44daaf949f622116993e16d4d88e0d1e466c"
+        },
+        {
+          "role": "frozen_RGB_frames",
+          "sha256": "8d731bfd6f44ce7f5fad809573cd64f80bbb261114b756ef756c199e8d591ca2"
+        }
+      ],
+      "rights": "Project-owned procedural synthetic raster; no real source footage, external textures or people",
+      "identity_claim": "GT material point is synthetic; model identity correctness not independently verified",
+      "transform": "native raster pixels placed at recorded panel offsets; no resize, crop or coordinate clipping; H.264 CRF18 transcode without frame resampling",
+      "unknown_policy": "No GT marker on unknown or hidden frames; no interpolation",
+      "native_thresholds": {
+        "B0": ">0.9 with official query override",
+        "B1": ">0.5"
+      },
+      "inference": "none; frozen predictions only"
+    }
+  ],
+  "poster": {
+    "file": "docs/assets/case_preview.png",
+    "frames": {
+      "repeated_appearance": [
+        12,
+        28
+      ],
+      "local_reentry": [
+        37,
+        42
+      ]
+    },
+    "source": "same frozen rendering buffers as the matching videos"
+  },
+  "review": {
+    "status": "passed",
+    "charts": "Both formal charts inspected for fonts, scales, labels, cropping, NA and parent identities",
+    "encoded_frames": "All 96 frames viewed in six contact sheets; native-size selected encoded frames reviewed, including C2 12/28/40, C3 10/37/42 and unknown frame 4",
+    "mapping": "192 frame/model records checked against frozen coordinates, native acceptance, GT known state and source frame/PTS",
+    "repair": "Legend moved out of C2 raster; poster changed to include visible C3 reentry; final H.264 samples reviewed",
+    "identity": "Only synthetic known-visible GT receives a GT marker. Candidate association is explicitly unconfirmed identity."
+  }
+}

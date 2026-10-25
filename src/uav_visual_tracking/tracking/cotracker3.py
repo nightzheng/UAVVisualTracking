@@ -1,9 +1,10 @@
 """Adapted legacy owner inference flow; official model stays an external dependency.
 
 Offline public forward adds support points. Disabled support uses the pinned
-private sparse API, matching legacy target_tracking.py; no model modifications.
+private sparse API at the pinned upstream revision; no model modifications.
 """
 from datetime import datetime, timezone
+from contextlib import contextmanager
 from pathlib import Path
 import importlib
 import importlib.metadata
@@ -19,11 +20,46 @@ UPSTREAM_COMMIT = "82e02e8029753ad4ef13cf06be7f4fc5facdda4d"
 OFFLINE_SHA256 = "2670d4562ed69326dda775a26e54883925cd11b6fc9b24cb7aa9f8078bce7834"
 
 
+@contextmanager
+def capture_offline_scores(core, point_count):
+    """Observe the exact original forward once; clone before predictor's in-place edits.
+
+    The pinned predictor calls core.forward directly, so nn.Module hooks do not
+    run. This temporary instance wrapper is opt-in, restores even on failure,
+    and never changes official model source, inputs or returned tensors.
+    """
+    captured = {}
+    original = core.forward
+    had_override = 'forward' in core.__dict__
+    def observe(*args, **kwargs):
+        result = original(*args, **kwargs)
+        if captured:
+            raise RuntimeError("Expected a single offline forward; backward/extra passes are unsupported")
+        if len(result) != 4:
+            raise ValueError("Expected pinned CoTracker3 offline four-output contract")
+        for name, value in zip(('visibility_probability','confidence_probability'), result[1:3]):
+            if value.ndim != 3 or value.shape[0] != 1 or value.shape[2] < point_count:
+                raise ValueError("Unexpected raw CoTracker B,T,N score shape")
+            captured[name] = value[0, :, :point_count].detach().clone()
+        return result
+    core.forward = observe
+    try:
+        yield captured
+    finally:
+        if had_override:
+            core.forward = original
+        else:
+            del core.forward
+
+
 def verify_upstream(source):
     source = Path(source).resolve()
     def git(*args):
-        return subprocess.run(["git", "--no-optional-locks", "-C", str(source), *args],
-                              capture_output=True, text=True, check=True).stdout.strip()
+        try:
+            return subprocess.run(["git", "--no-optional-locks", "-C", str(source), *args],
+                                  capture_output=True, text=True, check=True).stdout.strip()
+        except (OSError,subprocess.CalledProcessError) as error:
+            raise ValueError('Cannot verify the pinned official CoTracker checkout; check Git installation and source read access') from error
     if git("rev-parse", "HEAD") != UPSTREAM_COMMIT:
         raise ValueError("CoTracker source must match pinned commit " + UPSTREAM_COMMIT)
     if git("diff", "HEAD", "--name-only", "--", "cotracker", "hubconf.py", "setup.py"):
@@ -38,6 +74,8 @@ class CoTracker3(Tracker):
         if config.get("mode", "offline") != "offline":
             raise NotImplementedError("Window-online is documented but not implemented or relabeled as offline")
         self.config = dict(config)
+        if not isinstance(config.get('export_raw_scores', False), bool):
+            raise ValueError('export_raw_scores must be a boolean')
         self.device = config.get("device", "cuda")
         if self.device not in {"cpu", "cuda"}:
             raise ValueError("device must be cpu or cuda")
@@ -87,12 +125,21 @@ class CoTracker3(Tracker):
         start = time.perf_counter()
         video = torch.from_numpy(clip.frames).permute(0, 3, 1, 2)[None].float().to(self.device)
         prompt = torch.from_numpy(queries.array.copy())[None].to(self.device)
+        raw_scores = {}
         with torch.inference_mode():
-            if self.support_grid:
-                tracks, visibility = self.model(video, queries=prompt, backward_tracking=False)
-            else:
-                tracks, visibility = self.model._compute_sparse_tracks(
+            def forward():
+                if self.support_grid:
+                    return self.model(video, queries=prompt, backward_tracking=False)
+                return self.model._compute_sparse_tracks(
                     video, queries=prompt, add_support_grid=False, backward_tracking=False)
+            if self.config.get('export_raw_scores', False):
+                with capture_offline_scores(self.model.model, len(queries.array)) as captured:
+                    tracks, visibility = forward()
+                if not captured:
+                    raise RuntimeError("No new core forward was captured")
+                raw_scores = {k:v.cpu().numpy() for k,v in captured.items()}
+            else:
+                tracks, visibility = forward()
         self._sync()
         elapsed = time.perf_counter() - start
         output = Prediction(tracks[0].detach().cpu().numpy(), visibility[0].detach().cpu().numpy(),
@@ -108,5 +155,13 @@ class CoTracker3(Tracker):
                                               ["torch", "torchvision", "numpy", "opencv-python"]},
                                  python=platform.python_version(), platform=platform.platform(), torch_cuda=torch.version.cuda,
                                  gpu=torch.cuda.get_device_name() if self.device == "cuda" else None))
+        if raw_scores:
+            output.raw_scores = raw_scores
+            output.metadata.update(raw_score_export='opt-in temporary observer of pinned core.forward; no additional model pass',
+                                   inference_timing='input tensor/upload + model + raw-score clone/download; excluding loading/decode/file export',
+                                   visibility_rule='visibility_probability > 0.9; query frame forced True by official predictor',
+                                   confidence_used_in_offline_visibility=False,
+                                   score_semantics='final core sigmoid heads; confidence localization event, not material identity probability',
+                                   query_frame_override=True)
         output.validate(len(clip.frames), len(queries.array))
         return output
