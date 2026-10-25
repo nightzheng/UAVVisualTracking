@@ -1,1 +1,1 @@
-"""Video, query and result contracts."""
+"""Public offline point tracking research snapshot."""

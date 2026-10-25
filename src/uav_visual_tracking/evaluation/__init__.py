@@ -1,1 +1,1 @@
-"""Ground-truth metrics and explicitly weak diagnostics."""
+"""Public offline point tracking research snapshot."""

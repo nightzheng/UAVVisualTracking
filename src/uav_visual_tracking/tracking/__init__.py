@@ -1,1 +1,1 @@
-"""Backend-independent contract and baseline adapters."""
+"""Public offline point tracking research snapshot."""
