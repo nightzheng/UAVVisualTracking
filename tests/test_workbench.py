@@ -9,7 +9,7 @@ from unittest.mock import patch
 
 from uav_visual_tracking.workbench.configuration import preset, preview, validate
 from uav_visual_tracking.workbench.common import read, save
-from uav_visual_tracking.workbench.pipeline import evaluate
+from uav_visual_tracking.workbench.pipeline import evaluate, source_path
 from uav_visual_tracking.workbench.service import Runner
 from uav_visual_tracking.workbench.timeline import eligible
 
@@ -33,6 +33,12 @@ class ConfigurationTests(unittest.TestCase):
         cfg["rotor_motion"]["theta0_deg"] = None
         with self.assertRaises(ValueError):
             validate(cfg)
+
+    def test_recording_selection_rejects_unvalidated_paths(self):
+        cfg = preset("edge_sway")
+        for invalid in (dict(cfg, scene="../private"), dict(cfg, arm="/tmp"), []):
+            with self.assertRaisesRegex(ValueError, "Invalid recording selection"):
+                source_path(invalid, Path("result"))
 
     def test_frozen_and_seeded_curves(self):
         for scene in ("edge_sway", "slow_transition"):

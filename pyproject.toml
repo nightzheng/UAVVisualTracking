@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "uav-visual-tracking"
 version = "0.1.0"
-description = "Offline point tracking public research snapshot"
+description = "Local wind turbine blade inspection workbench and visual tracking baselines"
 readme = "README.md"
 requires-python = ">=3.10"
 license = {text = "MIT for original code; bundled official TAP-Vid code Apache-2.0"}

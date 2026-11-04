@@ -11,12 +11,16 @@ import numpy as np
 import yaml
 
 from .common import ARCH, read, save, sha
-from .configuration import validate
+from .configuration import ARMS, PRESETS, validate
 
 G = ARCH / "stage_u3g_joint_uav_gimbal_01"
 
 
 def source_path(cfg, job):
+    if (not isinstance(cfg, dict) or cfg.get("scene") not in tuple(PRESETS)
+            or cfg.get("arm") not in tuple(ARMS)
+            or cfg.get("mode") not in ("development", "formal", "replay")):
+        raise ValueError("Invalid recording selection")
     root = G / "formal" if cfg["mode"] == "replay" else job / "recording"
     return root / cfg["scene"] / cfg["arm"]
 

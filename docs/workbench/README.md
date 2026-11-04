@@ -1,93 +1,67 @@
-# Stage U4 本地巡检实验工作台
+# 本地巡检工作台技术指南
 
-工作台从浏览器或 CLI 调度一次实验。工作台中的任务完成表示采集或回放、评价和编码都结束。巡检是否通过、多少材料区域完成，由独立评价单列。
+安装入口、启动命令与研究边界见[项目 README](../../README.md)。
 
-## 安装和启动
+## 复现层级
 
-- Windows 上使用 WSL Ubuntu-24.04。Linux 可从已加载 ROS Jazzy 环境的终端直接启动。
-- WSL 中需要 ROS Jazzy、Gazebo Harmonic、Python 的 NumPy、OpenCV、PyYAML、Gazebo Transport 13 和 Msgs 10，以及可运行 Ogre2 的图形驱动。
-- 宿主机需要 Python 3.10+、Node.js 20.19+ 或 22.12+ 和支持 libx264 的 FFmpeg。
-- 需要已有冻结研究资产。新采集读取 U3-G 各场景与策略的已登记 C1 配置、SDF 和输入锁，使用其原始纹理与网格。历史回放还需要对应 U3-G 真实记录。两类工作都需要独立评价参考网格。
+| 层级 | 验证方法 | 资产要求 |
+|---|---|---|
+| 1 · 源码 | 运行 README 的单元测试和 npm 构建 | Git 仓库与软件依赖 |
+| 2 · 配置 | 启动服务，导入开发示例，编辑曲线并保存 | 无需 Gazebo 或研究归档 |
+| 3 · 冻结回放 | 选「冻结历史 · 回放」，分别运行往复 D 和减速 D | U3-G 冻结记录与评价参考网格 |
+| 4 · 新采集 | 运行 README 的 8 秒开发配置，检查实测曲线、RGB 样本与覆盖 | Gazebo、插件、C1 配置及场景资产 |
 
-在仓库根目录运行：
+第 3、4 层使用有访问权限的既有研究归档。通过研究资产维护者获取匹配的冻结目录。设置 `UAV_WORKBENCH_ARCHIVE` 指向归档根，默认是仓库根下的 `.local/research_archive`。新采集根据 `stage_u3g_joint_uav_gimbal_01/formal/LOCK.json` 核验策略的 `consumer_spec.json`、`local.sdf` 与 `config_snapshot.yaml`。SDF 引用网格和纹理，独立评价还读取 `simulator_migration/reference_model`。回放从同一 `formal` 树读取原始帧、相机状态与回执，重算关键指标并与冻结评价比较。
 
-```powershell
-python -m pip install -e ".[workbench]"
-npm --prefix workbench-ui ci
-npm --prefix workbench-ui run build
-uav-workbench serve --distro Ubuntu-24.04 --ffmpeg ffmpeg
-```
+## Gazebo 环境与插件
 
-浏览器打开 [本机工作台](http://127.0.0.1:8765)。选择往复或减速预设，编辑关键点并运行。配置可以保存为 JSON 后再次导入。也可运行同一条短曲线：
-
-```powershell
-uav-workbench run --config configs/workbench/development.json --ffmpeg ffmpeg
-```
-
-可用 `--repo`、`--results`、`--distro`、`--wsl`、`--linux-python`、`--plugin`、`--ffmpeg`、`--timeout` 和 `--port` 配置本机环境。`UAV_WORKBENCH_ARCHIVE` 指定本地归档根目录，默认是仓库下的 `.local/research_archive`。Windows 的仓库、归档和输出目录须能由所选 WSL 发行版访问。默认使用已有 U3-D 插件，也可在已加载 ROS Jazzy 的 Linux 终端重新构建并用 `--plugin` 指定：
+Ubuntu 24.04 或 WSL2 使用 ROS 2 Jazzy 与 Gazebo Harmonic 的系统软件包。准备 Gazebo Transport 13、Msgs 10 的 Python 绑定和 Ogre2，构建需要 CMake、C++17 工具链及 gz-sim8、gz-plugin2 的开发组件。WSL2 需要可用的 WSL 图形支持和宿主机驱动。使用 Ubuntu 系统 Python 来匹配系统绑定：
 
 ```bash
-cmake -S sim/workbench -B build/workbench
-cmake --build build/workbench
+source /opt/ros/jazzy/setup.bash
+/usr/bin/python3 -c 'import cv2, numpy, yaml, gz.transport13, gz.msgs10.image_pb2'
+gz sim --versions
+ffmpeg -hide_banner -encoders | grep libx264
+cmake -S sim/workbench -B .local/workbench-plugin
+cmake --build .local/workbench-plugin
 ```
 
-历史回放在实验类型里选择「冻结历史 · 回放」。选 B/D 对照固定站位与联合 CV，选 C/D 对照联合反应式与 CV。实验结果区可并排看指标，解释策略差异时要使用相同场景、时长和速度曲线。
+在 Ubuntu 系统环境中补齐 `python3-opencv`、`python3-numpy` 和 `python3-yaml`。编码可使用 Ubuntu 的 `ffmpeg` 软件包，或通过 `--ffmpeg` 指定经过上方命令核验的 Linux 编码器。独立工作台 Python 环境可使用 Conda 或 venv。Gazebo 绑定由 `--linux-python` 选定的运行环境加载，默认 `python3`。推荐明确传入 `/usr/bin/python3`。在原生 Ubuntu 启动服务前加载 ROS 环境。Windows 后端在 WSL 内加载 ROS 环境，并用 `wslpath` 转换路径。仓库、归档和结果目录均须对 WSL 可读写或按用途可读。
 
-## 配置、执行与证据
+默认加载本地归档中已构建的插件。使用新构建的插件时，给 `serve` 或 `run` 加上 `--plugin .local/workbench-plugin/libU3Motion.so`。需要替换 FFmpeg 时使用 `--ffmpeg`。其他选项见 `uav-workbench --help`。
+
+## 参数、数据流与结果
+
+`omega_points_deg_s` 从时间 0 严格递增，末点时间等于运行时长。角速度按段线性插值，角度逐段解析积分。开发配置范围为 8–72 s、±1.5 deg/s、±0.5 deg/s²、积分相位 ±15°。正式运行和历史回放使用冻结曲线。C1 登记锁定初相位、相机内参、叶片面与拍摄区域。
 
 ```text
-Vue / CLI → 校验、唯一 ID、配置快照
-                 │
-                 ├── 新采集 → SDF 与注册输入 → WSL/Gazebo → 20 Hz RGB
-                 │                             ↓
-                 │                      10 Hz 视觉 → 联合或固定站位控制
-                 │                             ↓
-                 │                       实际状态、回执、照片
-                 └── 回放 → 只读冻结 U3-G 记录 ────┤
-                                               ↓
-                                      独立评价 → U3-H 渲染 → 浏览器
+Web / CLI → 参数校验、唯一 ID、配置快照
+             ├ 新采集 → Gazebo 20 Hz RGB → 10 Hz 视觉 → 规划与执行回执
+             └ 冻结回放 → 读取真实历史 RGB、遥测与回执
+                                  ↓
+                      独立评价 → 因果视频渲染
 ```
 
-- 关键点协议是 `omega_points_deg_s`，时间从 0 严格递增，终点等于时长。关键点间线性插值角速度，逐段解析积分得到连续相位。停转用零速度区间，理想阶跃不属于此协议。固定种子扰动使用种子 4。
-- U4 开发包络采用 ±1.5 deg/s、±0.5 deg/s²、积分相位 ±15° 和 8–72 s。冻结正式配置使用原始两条曲线和 72 s 时长。每次提交分配新目录并保存配置快照、日志和产物。
-- C1 初始化和材料登记来自冻结输入。A 片吸力面、12 个区域、初始相位 0°、相机内参、双时钟和视觉调度随注册配置锁定。源配置哈希不匹配或缺少登记时，现场执行会报错。
-- 规划器接收当前相机状态、实时视觉结果和静态注册输入。工作台在规划调用期间拒绝文件读取，视觉子进程也有本地文件读取限制。独立 GT 评价运行在采集结束后的独立进程。Python 审计钩子属于应用边界，实验依赖本机可信源码和冻结资产。
-- 1080p H.264/yuv420p Demo 从对应任务的 PNG 生成。U3-H 使用模拟时钟、到达时钟、发布和实际应用回执及有效期决定预测的显示资格。角速度图按已发生的遥测累积绘制。
-- 下载项区分实际 RGB、轨迹和回执，视觉估计及拒绝，预测和规划参考，独立 GT 指标及覆盖账本。状态和日志在单机回环服务中读取。任务串行运行，取消或异常保留已有证据。
+实际帧、估计、预测、规划参考和独立 GT 各自记录。渲染以模拟时钟、到达时钟、命令发布和实际应用回执判断显示资格。`status.json` 与 `task.log` 记录状态及错误。`result.json`、`SUMMARY.json` 与 `surface_ledger.npz` 保存评价，`trajectory.csv`、`action_alignment.json` 及 `demo.frames.json` 支持逐帧核对。新采集另有 `recording/` 与 `motion_verification.json`。任务失败或取消保留已有证据。
 
-## 归档边界
+如果 WSL 的 Ogre2 在默认显卡上崩溃，可在 Ubuntu 内通过 `MESA_D3D12_DEFAULT_ADAPTER_NAME` 选择本机已验证的适配器。Windows 宿主机启动服务时，可通过 WSLENV 将此设置传入 WSL：
 
-| 来源 | 仓库内容 | 本地证据 |
-|---|---|---|
-| U1、U2 | 沿用历史入口和回归口径 | 原始场景、测试证据与仿真日志 |
-| U3、U3-B/C | 工作台所需几何与绑定代码 | C1 资产、登记来源、许可与运行证据 |
-| U3-D/E/F | 控制、构图与独立评价依赖，执行插件源码 | 注册输入、照片、GT 派生物 |
-| U3-G/H | 联合规划、实时采集、执行审计、显示门控和编码 | 各策略记录、RGB、正式视频和冻结报告 |
+```powershell
+$env:MESA_D3D12_DEFAULT_ADAPTER_NAME = "NVIDIA"  # 示例。使用本机适配器名称。
+$env:WSLENV = (@($env:WSLENV, "MESA_D3D12_DEFAULT_ADAPTER_NAME") | Where-Object { $_ }) -join ":"
+```
 
-U4 入口为 `uav-workbench`。已有本地 `run_final_demo.py` 继续用于历史阶段的原有命令。工作台采用统一的执行、评价和渲染链路。
+如果无法预览，确认服务与前端构建来自同一版本。如果新采集在准备阶段失败，检查 WSL 路径、C1 输入锁与插件。Gazebo 启动失败时查看运行日志，确认 Ogre2 和图像传输。编码失败时检查 FFmpeg 编码器和结果盘空间。
 
-## 页面截图
+## 复核记录
+
+- 冻结往复 D 为 12/12，减速 D 为 11/12。往复 D 的 403 条逐帧回执与冻结显示证据一致。
+- 浏览器提交的 8 秒开发曲线采集 161 张 RGB，独立评价为 5/12、覆盖 68.21%。实测关节相位与解析积分最大偏差 0.0003°，三张抽样 RGB 的哈希均与冻结记录不同。
+- Windows Conda 的 Python 3.12、Node 22 和 libx264 已验证。25 项公开基线和 10 项工作台测试在无研究归档配置下通过。36 项历史契约另用本地研究归档验证。
+- Ubuntu 24.04 内直接启动 Linux CLI 并使用系统 Python 3.12 和重新构建的插件，完成新采集、评价和 1080p 编码。此验证运行于 WSL2 的 Ubuntu 环境。Windows Conda 调度路径也完成了新采集与编码。两条启动路径均采集 161 张 RGB，分别独立完成 5/12 和 4/12。新采集受实时观测和执行时序影响，冻结回放用于复核既有指标。
+
+以下截图保留对应实测时的界面和数据。
 
 ![曲线编辑与运行配置](configuration.png)
 
 ![真实运行的独立结果与 Demo](result.png)
-
-## 已验证结果
-
-| 实验 | 独立完成区域 | 独立覆盖 |
-|---|---:|---:|
-| U3-G 往复 D 历史回放 | 12/12 | 99.98% |
-| U3-G 减速 D 历史回放 | 11/12 | 99.98% |
-| U4 新 8 秒曲线，联合 CV（浏览器提交） | 5/12 | 68.21% |
-
-两次回放重算的完成数、质量合格数、覆盖、身份错误计数与各项检查同冻结记录一致。短实验采集 161 张 RGB，处理 80 个视觉帧并拍摄 5 张照片。浏览器运行的实际关节相位与解析积分最大偏差为 0.0003°，抽查的 3 张 RGB 哈希均与同策略冻结记录不同。FFprobe 验证三段 Demo 的视频流均为 1920×1080 H.264/yuv420p。
-
-U1、U2、U3、U3-B、U3-C、U3-D 历史契约检查共 36 项通过，仓库公开基线检查 25 项通过。往复 D 的 403 条逐帧显示回执与 U3-H 冻结回执逐条一致。工作台 9 项测试覆盖无效曲线、双时钟门控、取消、子进程失败和模拟写盘失败。实测 Gazebo 启动后的取消保留了运行日志与取消回执，缺失插件在环境检查阶段报错。
-
-执行工作台单元回归：
-
-```powershell
-python -m unittest discover -s tests -p test_workbench.py -v
-```
-
-C1 能力限于已有可信初始身份与注册材料。算法和实机仍需验证遮挡后全局身份恢复、跨叶片无先验巡检、真实飞行动力学和 PX4。此阶段的策略结果用于同配置对照，尚无证据支持 CV 普遍优于反应式。

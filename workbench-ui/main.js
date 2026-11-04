@@ -19,6 +19,7 @@ async function api(path, data) {
 createApp({
   setup() {
     const presets = ref({});
+    const version = ref("");
     const config = ref(null);
     const sampled = ref(null);
     const configError = ref("");
@@ -185,7 +186,8 @@ createApp({
       const frame = proof.value[index];
       currentFrame.value = frame?.D || null;
     }
-    api("/api/presets").then(data => {
+    Promise.all([api("/api/presets"), api("/api/version")]).then(([data, release]) => {
+      version.value = release.version;
       presets.value = data;
       load("edge_sway");
       refresh();
@@ -193,7 +195,7 @@ createApp({
     }).catch(error => { taskError.value = error.message; });
 
     return {
-      arms, config, configError, taskError, jobs, selected, logs, result, currentFrame, svg, video,
+      arms, version, config, configError, taskError, jobs, selected, logs, result, currentFrame, svg, video,
       comparison, comparedId, points, active, job, base, x, y, edited, phase, sampled, load, changeMode, add, startDrag,
       move, endDrag: () => { drag.value = null; }, importConfig, download, run, cancel, seek,
       isTerminal: state => finalStates.includes(state),
@@ -201,7 +203,7 @@ createApp({
     };
   },
   template: `
-    <header><span>UAV VISUAL TRACKING / U4</span><h1>本地巡检实验工作台</h1>
+    <header><span>UAVVisualTracking<span v-if="version"> v{{ version }}</span></span><h1>风机叶片局部视觉巡检实验工作台</h1>
       <p>真实 Gazebo 采集 · C1 条件化材料绑定 · 独立覆盖评价</p></header>
     <main>
       <p v-if="taskError" role="alert" class="error">{{ taskError }}</p>

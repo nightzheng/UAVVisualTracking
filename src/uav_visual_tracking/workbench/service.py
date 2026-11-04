@@ -1,5 +1,6 @@
 """Loopback experiment service and serial CLI runner."""
 import argparse
+from importlib.metadata import version
 import json
 import mimetypes
 import os
@@ -108,7 +109,8 @@ class Runner:
         if stage == "render":
             args.extend(["--ffmpeg", self.options.ffmpeg])
         env = os.environ.copy()
-        env["PYTHONPATH"] = str(self.options.repo / "src")
+        source = str(self.options.repo / "src")
+        env["PYTHONPATH"] = os.pathsep.join(filter(None, (source, env.get("PYTHONPATH"))))
         env["UAV_WORKBENCH_ARCHIVE"] = str(ARCH)
         if live:
             plugin = self.options.plugin
@@ -248,6 +250,8 @@ def handler_for(runner, web):
                 return
             try:
                 path = unquote(urlsplit(self.path).path)
+                if path == "/api/version":
+                    return self.json({"version": version("uav-visual-tracking")})
                 if path == "/api/presets":
                     return self.json({scene: [preset(scene), preset(scene, True)] for scene in PRESETS})
                 if path == "/api/jobs":
@@ -265,7 +269,12 @@ def handler_for(runner, web):
                     if tail == "logs":
                         cfg = read(job / "config.json")
                         logs = {}
-                        for file in [job / "task.log", source_path(cfg, job) / "server.log"]:
+                        files = [job / "task.log"]
+                        try:
+                            files.append(source_path(cfg, job) / "server.log")
+                        except ValueError:
+                            pass
+                        for file in files:
                             if file.is_file():
                                 with file.open("rb") as stream:
                                     stream.seek(max(0, file.stat().st_size - 16000))
@@ -323,7 +332,9 @@ def handler_for(runner, web):
 
 
 def main():
-    parser = argparse.ArgumentParser()
+    parser = argparse.ArgumentParser(prog="uav-workbench")
+    parser.add_argument("--version", action="version",
+                        version=f"%(prog)s {version('uav-visual-tracking')}")
     parser.add_argument("command", choices=("serve", "run"))
     parser.add_argument("--config", type=Path)
     parser.add_argument("--results", type=Path, default=Path(".local/u4-results"))

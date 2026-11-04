@@ -52,7 +52,8 @@ def run(out, controller=Controller, cancelled=None):
     out=Path(out).resolve();spec=read(out/'consumer_spec.json');src=spec['source'];control=spec['control']
     (out/'rgb').mkdir(exist_ok=False);(out/'captures').mkdir();cv2.setNumThreads(1)
     os.environ['GZ_PARTITION']=f'u3d_{os.getpid()}'
-    os.environ.setdefault('GALLIUM_DRIVER','d3d12');os.environ.setdefault('MESA_D3D12_DEFAULT_ADAPTER_NAME','NVIDIA')
+    if os.environ.get('WSL_DISTRO_NAME'):
+        os.environ.setdefault('GALLIUM_DRIVER', 'd3d12')
     from gz.transport13 import Node
     from gz.msgs10.image_pb2 import Image
     from gz.msgs10.camera_info_pb2 import CameraInfo
