@@ -1,0 +1,7 @@
+cmake_minimum_required(VERSION 3.16)
+project(u3d_motion LANGUAGES CXX)
+find_package(gz-sim8 REQUIRED)
+find_package(gz-plugin2 REQUIRED COMPONENTS register)
+add_library(U3Motion SHARED U3Motion.cc)
+target_link_libraries(U3Motion gz-sim8::gz-sim8 gz-plugin2::register)
+target_compile_features(U3Motion PRIVATE cxx_std_17)
