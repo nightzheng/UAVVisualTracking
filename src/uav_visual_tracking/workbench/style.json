@@ -1,0 +1,8 @@
+{
+  "width": 1920, "height": 1080, "fps": 20,
+  "background": "#101722", "panel": "#172330", "border": "#344859", "grid": "#2c4052",
+  "white": "#eef4fa", "muted": "#a3b7c7", "history": "#aab5c2",
+  "cyan": "#47dcea", "green": "#58ed9a", "orange": "#ffad61", "purple": "#cd9ef6",
+  "expired": "#9ca9b5", "reject": "#ff8989", "baseline": "#c0cbd7", "joint": "#bb9bea",
+  "local_z_half_m": 9, "local_x_half_m": 11, "omega_abs_deg_s": 1.6
+}
