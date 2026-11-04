@@ -83,3 +83,7 @@ python scripts/plot_results.py --output outputs/figures
 The 25 CPU tests include hand-checkable cases and test doubles; doubles are not model-run evidence. Acceptance also checked 144 existing frozen outputs (9,396 scalar comparisons; maximum difference 2.22×10⁻¹⁶) and normal-wheel/editable package resources without the original project PYTHONPATH. Existing dependencies were reused; a fully fresh internet install was not tested.
 
 Original authorized contributions: [LICENSE](LICENSE). Third-party code, models and assets retain their own terms. This snapshot contains selected synthetic derivatives and small numeric summaries, not full data generation or historical execution infrastructure.
+
+## Local inspection workbench
+
+Stage U4 supports browser-based rotor-curve editing, live Gazebo capture and frozen recording replay. See the [workbench guide](docs/workbench/README.md).

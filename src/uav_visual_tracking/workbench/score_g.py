@@ -92,5 +92,3 @@ def evaluate(root):
         results.append(result)
     if not results:raise RuntimeError('No preserved U3-G recordings')
     save(root/'COMPARISON.json',results)
-
-

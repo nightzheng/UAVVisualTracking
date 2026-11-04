@@ -72,5 +72,3 @@ def split_evaluate(run, derived=None):
         composition=statistics(observed),comparison_8_16=statistics(mid) if len(mid)>1 else None,photos=details)
     save(derived/'IMAGING_EVALUATION.json',result);print(run.parent.name,run.name,good,complete,coverage,checks,flush=True)
     return result
-
-
