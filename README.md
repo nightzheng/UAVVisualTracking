@@ -1,85 +1,80 @@
-# UAVVisualTracking — Public Research Snapshot v0.1
+# UAVVisualTracking
 
-When repeated structures leave and reenter a camera view, a plausible point track can remain confidently wrong. This research studies material-point correspondence and the tradeoff between rejecting observations and accepting geometrically correct ones.
+UAVVisualTracking 是旋转风机叶片局部视觉巡检的科研工作台。它在 Gazebo 中采集单目 RGB，将视觉观测与已登记的叶片材料区域关联，并使用反应式或恒速预测控制固定站位或本体–云台联合运动。系统记录分段拍摄回执，再用独立几何评价照片质量与表面覆盖。
 
-**Offline Tracking.** B0 (CoTracker3) and B1 (BootsTAPIR) are existing baselines. M1 is a fixed score-gating operating point: it changes acceptance, never coordinates, and is not a new network. Current evidence is synthetic, from one rendering family. Real material-point GT, real turbine performance and onboard real-time operation have not been established.
+| 功能 | 用途 |
+|---|---|
+| 转子曲线编辑 | 编辑连续角速度关键点、预览解析积分相位、导入和导出 JSON |
+| 实验调度 | 运行冻结配置或开发配置，查看进度和日志，取消运行 |
+| 结果复核 | 对照策略、浏览巡检照片与覆盖结果、下载实测轨迹和 1080p Demo |
 
-## Frozen research evidence
+## 运行条件
 
-![Formal baseline pairs](docs/assets/baseline_pairs.png)
+工作台需要 Python 3.10+（推荐 3.12）和 Node.js 22.12+（22 系列）。回放和新采集还需要带 libx264 的 FFmpeg。新采集使用 Ubuntu 24.04 系统 Python、ROS 2 Jazzy、Gazebo Harmonic、Transport 13、Msgs 10 和可用的 Ogre2 渲染环境。Windows 通过 WSL2 运行 Gazebo，宿主机运行工作台与结果评价。原生 Ubuntu 可以直接运行两部分。
 
-Stage5B: six procedural parents, two fixed queries per condition, 48 frames at 24 Hz. C0 has mixed parent rankings (B1 AJ higher in 4/6, B0 in 2/6); B1 AJ is higher in 6/6 C2 parents. C3 contains unknown GT: only 5/12 queries have complete GT, so complete six-parent standard AJ, δavg and OA are **NA**. Native resolutions and support policies differ between models; these are system comparisons.
+| 复现层级 | 所需内容 |
+|---|---|
+| 1 · 安装、单元测试和前端构建 | 本仓库和软件依赖 |
+| 2 · Web 配置编辑 | 前端构建和本地服务，可编辑、校验和导出曲线 |
+| 3 · 冻结回放 | 对应的真实 U3-G 冻结记录、参考网格和 FFmpeg |
+| 4 · 新 Gazebo 采集 | Gazebo、巡检插件、场景网格与纹理、冻结输入锁、有效的 C1 材料登记和独立评价网格 |
 
-![Risk and correct coverage pairs](docs/assets/risk_coverage.png)
+第 3、4 层依赖未公开分发的研究资产。有权限的研究人员可使用现有冻结归档，并按[工作台指南](docs/workbench/README.md)核验输入。仓库自带的[开发示例](configs/workbench/development.json)可以直接导入编辑器并验证。实际采集仍需第 4 层资产。
 
-Stage6B uses six new procedural parents. At 10 source-image pixels, strict parent macro risk / correct coverage changes from **20.72% / 45.50% to 23.61% / 51.59% for B0**, and **5.58% / 68.30% to 4.01% / 64.45% for B1**. B0 gains coverage with 25 additional wrong accepts; B1 reduces risk while losing 65 correct accepts. All parent changes are shown above. These tradeoffs do not establish a universally better gate.
+## 快速开始
 
-![Selected formal frozen frames](docs/assets/case_preview.png)
+在仓库根目录执行。Windows 使用已初始化 Conda 的 PowerShell：
 
-[Repeated appearance: p01 / C2 / A_inner](docs/assets/repeated_appearance.mp4) · [Local reentry: p06 / C3 / A_inner](docs/assets/local_reentry.mp4). Each video pairs B0/B1 on identical frozen frames and query, with material GT, native acceptance, frame number and PTS. Both show all 48 frames at one-third speed (8 fps); source time is 24 Hz. Geometric association candidates are not confirmed identity switches. No Pilot image is labeled as formal evidence.
+```powershell
+conda env create -f environment.yml
+conda activate uavvisualtracking
+python -m pip install -e ".[workbench]"
+npm --prefix workbench-ui ci
+npm --prefix workbench-ui run build
+uav-workbench serve --distro Ubuntu-24.04
+```
 
-Exact chart data: [baseline parents](results/baseline_parent.csv), [reliability parents](results/reliability_parent.csv), [frozen summaries](results/summary.json). Sources and rights: [SOURCE_MANIFEST](SOURCE_MANIFEST.json), [MEDIA_MANIFEST](docs/assets/MEDIA_MANIFEST.json). Methods and evaluation schemas: [RESEARCH_STATUS](docs/RESEARCH_STATUS.md).
+Ubuntu 24.04 使用系统 Python 创建工作台环境。先准备 Node.js 22.12+，如需编码则准备带 libx264 的 FFmpeg：
 
-## Install and obtain external models
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+python -m pip install -e '.[workbench]'
+npm --prefix workbench-ui ci
+npm --prefix workbench-ui run build
+uav-workbench serve --linux-python /usr/bin/python3
+```
 
-Python 3.10 or later and Git are required. From this snapshot directory:
+原生 Ubuntu 如需执行新采集，先在启动服务的同一终端加载 `source /opt/ros/jazzy/setup.bash`，并按[系统依赖和插件构建说明](docs/workbench/README.md#gazebo-环境与插件)准备 Gazebo。Windows 宿主机的 Conda 环境仅用于工作台，WSL 内的 ROS/Gazebo 绑定使用 Ubuntu 系统 Python。
+
+打开 [本机工作台](http://127.0.0.1:8765)，选择场景与策略。双击曲线新增关键点，拖动或用表格精确编辑。导入配置后可预览速度与相位。具备资产时点击运行，完成后在结果区查看覆盖、未完成原因及视频。服务默认仅监听回环地址。
+
+## 命令行与结果
+
+确认已满足第 4 层条件后，运行一条与冻结场景不同的 8 秒开发曲线：
 
 ```sh
-python -m pip install .
-# Alternatively, for development:
-python -m pip install -e .
+uav-workbench --version
+uav-workbench run --config configs/workbench/development.json
 ```
 
-Install a PyTorch/torchvision build suited to your CPU or CUDA environment, then `python -m pip install ".[models]"` for model adapter dependencies. No model source, weight or input video is bundled or automatically downloaded. CPU is selectable but has not been model-tested in this snapshot.
+默认在 `.local/u4-results/<实验 ID>/` 保存配置、状态、日志、结果与 Demo。新采集写入本次 RGB、遥测及回执，并核对实测运动。冻结回放读取已有真实记录，重新计算评价和视频。任务完成表示处理链结束，巡检是否通过及完成区域数由独立评价单独报告。
 
-| Baseline | Official source revision | External weight |
-|---|---|---|
-| B0 CoTracker3 | [facebookresearch/co-tracker](https://github.com/facebookresearch/co-tracker/tree/82e02e8029753ad4ef13cf06be7f4fc5facdda4d), `82e02e8029753ad4ef13cf06be7f4fc5facdda4d` | [scaled_offline.pth](https://huggingface.co/facebook/cotracker3/blob/main/scaled_offline.pth) |
-| B1 BootsTAPIR | [google-deepmind/tapnet](https://github.com/google-deepmind/tapnet/tree/730cda1c730877cfedbe01bf87fb1cadb78a565d), `730cda1c730877cfedbe01bf87fb1cadb78a565d` | [bootstapir_checkpoint_v2.pt](https://storage.googleapis.com/dm-tapnet/bootstap/bootstapir_checkpoint_v2.pt) |
-
-Check out these revisions and supply their local paths. Adapters verify source and weight identities; an archive without Git metadata is insufficient for B0. Expected weight SHA256:
-
-```text
-B0 2670d4562ed69326dda775a26e54883925cd11b6fc9b24cb7aa9f8078bce7834
-B1 8493c7a69e02c85b9382fbb3c7b8b539b36bc08ede744b9e99feb739a0129f4b
-```
-
-CoTracker source and weights have **CC BY-NC 4.0 noncommercial restrictions**. TAPIR source, the linked BootsTAPIR checkpoint and bundled official TAP-Vid source have separate Apache-2.0 terms. See [THIRD_PARTY_NOTICES](THIRD_PARTY_NOTICES.md).
-
-## Run your own video
-
-Edit [configs/queries.json](configs/queries.json). Each row is `[clip_frame_index, x, y]`; indices are local to the selected clip. `coordinate_space` is `original` (source-image pixels) or `processing` (after resize and optional ROI crop). Multiple point IDs and different query frames are supported. Manual queries do not imply automatic semantic localization.
+第 1 层测试命令：
 
 ```sh
-python scripts/demo.py --backend B0 --source /path/to/co-tracker --checkpoint /path/to/scaled_offline.pth --video /path/to/your_video.mp4 --queries configs/queries.json --output outputs/b0 --overlay
-python scripts/demo.py --backend B1 --source /path/to/tapnet --checkpoint /path/to/bootstapir_checkpoint_v2.pt --video /path/to/your_video.mp4 --queries configs/queries.json --output outputs/b1 --overlay
+python -m unittest discover -s tests -p 'test_public*.py'
+python -m unittest discover -s tests -p test_workbench.py
 ```
 
-Use `--device cpu` explicitly if needed. Defaults: at most 120 frames / 8 seconds, decoded width ≤640, B0 official support grid enabled, B1 model input 256×256. `--roi X0 Y0 X1 Y1` crops the resized processing video. `--no-support-grid` is a B0 ablation; `--b1-resolution H W` changes B1 dimensions. `--help` lists all options. Large full clips can exceed available GPU memory.
+## 研究边界与历史基线
 
-Outputs: `tracks.npz` (schema2), `tracks.csv`, `manifest.json`, and optionally `overlay.mp4`. Tracks retain source-image mapping, source frames, PTS, native visibility and continuous raw scores. B0 exports visibility/confidence probabilities; B1 exports occlusion/expected-distance logits and continuous visibility score. Scores are not calibrated material identity probabilities. Existing outputs are refused. MP4 requires verified CFR timing; omit `--overlay` for VFR or assumed timing and retain the saved PTS.
+当前 C1 材料绑定以可信初相位和预登记的单片材料区域为条件。评价使用已知几何和静态参考网格，现场输入是真实 Gazebo RGB，执行采用运动学模型。结果支持相同条件下的策略对照。跨叶片无锚点巡检、实机飞行动力学与 PX4 尚未验证。
 
-Demo user videos, queries, resize limits and ROI are not frozen experimental bindings. Demo outputs are not formal heldout results. B0 and B1 each completed one real GPU forward on a separate 6-frame development clip during engineering acceptance, including schema2 reload and overlay export. This validates that narrow path on the existing environment, not arbitrary videos, accuracy, clean-machine CUDA setup or deployment.
+CoTracker3、BootsTAPIR、Stage7C 等历史基线继续保留。推理、评测入口与证据见[历史视觉跟踪基线](docs/baselines.md)和[研究状态](docs/RESEARCH_STATUS.md)。
 
-## Evaluate saved tracks
+## Citation 与 License
 
-Supply independently aligned GT as described in [RESEARCH_STATUS](docs/RESEARCH_STATUS.md). Single-sequence evaluation makes no complete parent macro claim:
+软件引用可使用 *nightzheng. UAVVisualTracking, version 0.1.0 (2026)*，并附[项目仓库](https://github.com/nightzheng/UAVVisualTracking)和实际使用的提交哈希。
 
-```sh
-python scripts/evaluate.py --result outputs/b0 --gt /path/to/aligned_gt.npz --model B0 --epsilon 10 --output outputs/b0_eval.json
-python scripts/evaluate.py --plan /path/to/complete_plan.json --epsilon 10 --output outputs/formal_eval.json
-```
-
-The entry uses the unchanged official TAP-Vid function, normalized in the **actual observation video domain**. C3 uses **180×260 ROI**, with source-image EPE evaluated separately. Unknown GT makes official full scores NA. M0/M1/ALL, G_geo counts, risk, acceptance/correct coverage and accepted-unknown bounds remain separate. Macro evaluation requires every declared parent/condition/query/model slot; missing slots give a detailed refusal and exit code 2. NA propagates through query and parent means.
-
-## Verify
-
-```sh
-python -m unittest discover -s tests -v
-python -m pip install ".[figures]"
-python scripts/plot_results.py --output outputs/figures
-```
-
-The 25 CPU tests include hand-checkable cases and test doubles; doubles are not model-run evidence. Acceptance also checked 144 existing frozen outputs (9,396 scalar comparisons; maximum difference 2.22×10⁻¹⁶) and normal-wheel/editable package resources without the original project PYTHONPATH. Existing dependencies were reused; a fully fresh internet install was not tested.
-
-Original authorized contributions: [LICENSE](LICENSE). Third-party code, models and assets retain their own terms. This snapshot contains selected synthetic derivatives and small numeric summaries, not full data generation or historical execution infrastructure.
+项目原创代码采用 [MIT](LICENSE)。第三方代码、模型和素材适用各自条款，详见[第三方声明](THIRD_PARTY_NOTICES.md)。

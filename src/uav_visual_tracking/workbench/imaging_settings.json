@@ -1,0 +1,1 @@
+{"distances_m":[19,20,22,24],"phase_envelope_deg":[-12,0,12],"min_area":0.985,"min_patch":0.94,"min_neighbor_iou":0.05,"min_overlap_radial_fraction":0.15,"required_photos":12,"declared_defect_mm":null,"required_defect_pixels":null,"angular_acceleration_deg_s2":70,"ref_rate_deg_s":35,"filter_tau_s":0.12,"deadband_px":5,"transition_radial_lead":0.78,"seed":0}

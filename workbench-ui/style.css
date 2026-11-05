@@ -1,0 +1,17 @@
+:root { color-scheme: dark; font: 16px system-ui,sans-serif; background:#0d1721; color:#e5eef3 }
+body { margin:0 } header,main { max-width:1100px; margin:auto; padding:1.6rem }
+header { padding-bottom:0 } header span,.source { color:#62ddcb; font-weight:600; letter-spacing:.09em }
+h1 { margin:.4em 0 } h2 { margin-top:0 } section { background:#142430; border:1px solid #2d4453; border-radius:14px; padding:1.4rem; margin:0 0 1.2rem }
+.controls { display:flex; flex-wrap:wrap; gap:.8rem; align-items:end } label { display:grid; gap:.35rem }
+input,select,button,.upload { font:inherit; color:inherit; background:#203542; border:1px solid #456476; border-radius:6px; padding:.45em .65em }
+input[type=number] { width:8em } button,.upload,summary { cursor:pointer } button:disabled { opacity:.5; cursor:default }
+.upload input { position:absolute; opacity:0; width:1px; height:1px } .upload:focus-within { outline:2px solid white }
+.primary { background:#68e2d0; color:#0d1721; font-weight:700 } .muted { color:#a9bfcb } .error { color:#ffad91 }
+svg { width:100%; max-height:320px; background:#0b1822; border-radius:8px; touch-action:none }
+svg text { fill:#a9bfcb; font-size:11px; pointer-events:none } svg .grid { stroke:#344d5b; pointer-events:none }
+svg polyline { fill:none; pointer-events:none; stroke-width:2 } .omega { stroke:#62ddcb } .phase { stroke:#ffc878; stroke-dasharray:5 4 }
+circle { fill:#62ddcb; stroke:#0d1721; cursor:grab } table { border-spacing:.55rem; text-align:left }
+.actions { margin-top:1rem } pre { background:#09131b; padding:.8rem; overflow:auto; max-height:18rem; white-space:pre-wrap }
+.stats,.photos { display:grid; grid-template-columns:repeat(auto-fit,minmax(170px,1fr)); gap:.8rem; margin:1rem 0 }
+.stats div,.photos article { background:#203542; padding:.75rem; border-radius:8px } .stats b { display:block; font-size:1.4rem }
+video,img { width:100%; border-radius:6px } a { color:#86e9dc }

@@ -27,3 +27,4 @@ dist/
 *.mov
 *.mkv
 !docs/assets/*.mp4
+/workbench-ui/node_modules/
